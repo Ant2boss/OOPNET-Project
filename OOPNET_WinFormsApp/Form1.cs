@@ -1,4 +1,7 @@
-﻿using System;
+﻿using OOPNET_DataLayer.Models;
+using OOPNET_DataLayer.Repository;
+using OOPNET_DataLayer.Repository.RepoInternals;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +18,11 @@ namespace OOPNET_WinFormsApp
 		public Form1()
 		{
 			InitializeComponent();
+
+			ITeamsRepo teamsRepo = RepoFactory.GetTeamsRepo();
+
+			IList<TeamResults> teams = teamsRepo.GetAllTeamResults();
+			Console.WriteLine(teams.Count);
 		}
 	}
 }

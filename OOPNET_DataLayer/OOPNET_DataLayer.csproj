@@ -31,8 +31,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=106.11.7.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.11.7\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,7 +48,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Converters\Converter.cs" />
+    <Compile Include="Models\Converters\DescriptionConverter.cs" />
+    <Compile Include="Models\Match.cs" />
+    <Compile Include="Models\Converters\PositionConverter.cs" />
+    <Compile Include="Models\Converters\ParseStringConverter.cs" />
+    <Compile Include="Models\Converters\StageNameConverter.cs" />
+    <Compile Include="Models\MatchStartingEleven.cs" />
+    <Compile Include="Models\Converters\StatusConverter.cs" />
+    <Compile Include="Models\Converters\TacticsConverter.cs" />
+    <Compile Include="Models\MatchTeam.cs" />
+    <Compile Include="Models\MatchTeamEvent.cs" />
+    <Compile Include="Models\Team.cs" />
+    <Compile Include="Models\TeamResults.cs" />
+    <Compile Include="Models\MatchTeamStatistics.cs" />
+    <Compile Include="Models\Converters\TypeOfEventConverter.cs" />
+    <Compile Include="Models\Converters\TimeConverter.cs" />
+    <Compile Include="Models\MatchWeather.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\IMatchesRepo.cs" />
+    <Compile Include="Repository\ITeamsRepo.cs" />
+    <Compile Include="Repository\RepoFactory.cs" />
+    <Compile Include="Repository\RepoInternals\intLocalMatchesRepo.cs" />
+    <Compile Include="Repository\RepoInternals\intLocalTeamsRepo.cs" />
+    <Compile Include="Repository\RepoInternals\intWebMatchesRepo.cs" />
+    <Compile Include="Repository\RepoInternals\intWebTeamsRepo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
