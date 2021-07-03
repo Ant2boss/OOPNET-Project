@@ -10,5 +10,7 @@ namespace OOPNET_Utils.Configuration
 	{
 		public string ConfigKey { get; set; }
 		public string ConfigValue { get; set; }
+
+		public override string ToString() => $"{ConfigKey}: \"{ConfigValue}\"";
 	}
 }

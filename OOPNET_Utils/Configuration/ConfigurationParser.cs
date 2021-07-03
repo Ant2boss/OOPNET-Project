@@ -25,6 +25,34 @@ namespace OOPNET_Utils.Configuration
 			return configDict;
 		}
 
+		public static void UpdateConfigFile(string FilePath, IDictionary<string, string> UpdatedValues)
+		{
+			string[] fileLines = File.ReadAllLines(FilePath);
+			string[] newFileLines = new string[fileLines.Length];
+
+			for (int i = 0; i < fileLines.Length; ++i)
+			{
+				string line = fileLines[i];
+
+				ConfigurationToken token = _ParseLine(line);
+
+				if (string.IsNullOrEmpty(token.ConfigKey))
+				{
+					newFileLines[i] = line;
+					continue;
+				}
+
+				if (UpdatedValues.Keys.Contains(token.ConfigKey))
+				{ 
+					token.ConfigValue = UpdatedValues[token.ConfigKey];
+
+					newFileLines[i] = token.ToString();
+				}
+			}
+
+			File.WriteAllLines(FilePath, newFileLines);
+		}
+
 		private static IList<ConfigurationToken> _ParseFileToTokens(string FilePath)
 		{
 			IList<ConfigurationToken> tokenList = new List<ConfigurationToken>();
@@ -32,25 +60,12 @@ namespace OOPNET_Utils.Configuration
 			string[] fileLines = File.ReadAllLines(FilePath);
 			foreach (string line in fileLines)
 			{
-				string trimmedLine = line.Trim();
+				ConfigurationToken token = _ParseLine(line);
 
-				//Empty or -- lines are ignored
-				if (string.IsNullOrEmpty(trimmedLine) || trimmedLine.StartsWith("--"))
+				if (string.IsNullOrEmpty(token.ConfigKey))
 				{
 					continue;
 				}
-
-				string[] lineParts = trimmedLine.Split(':');
-
-				//Incorrect formating is ignored
-				if (lineParts.Length != 2)
-				{
-					continue;
-				}
-
-				ConfigurationToken token = new ConfigurationToken();
-				token.ConfigKey = lineParts[0].Trim();
-				token.ConfigValue = lineParts[1].Trim();
 
 				//Duplicate keys are ignored
 				if (tokenList.Where(t => t.ConfigKey == token.ConfigKey).Count() > 0)
@@ -58,20 +73,46 @@ namespace OOPNET_Utils.Configuration
 					continue;
 				}
 
-				int indexOfFirst = token.ConfigValue.IndexOf('"');
-				int indexOfLast = token.ConfigValue.LastIndexOf('"');
-
-				if (indexOfFirst < 0 || indexOfLast == indexOfFirst)
-				{
-					continue;
-				}
-				
-				token.ConfigValue = token.ConfigValue.Substring(indexOfFirst + 1, indexOfLast - indexOfFirst - 1);
-
 				tokenList.Add(token);
 			}
 
 			return tokenList;
 		}
+
+		private static ConfigurationToken _ParseLine(string line)
+		{
+			string trimmedLine = line.Trim();
+
+			//Empty or -- lines are ignored
+			if (string.IsNullOrEmpty(trimmedLine) || trimmedLine.StartsWith("--"))
+			{
+				return new ConfigurationToken();
+			}
+
+			string[] lineParts = trimmedLine.Split(':');
+
+			//Incorrect formating is ignored
+			if (lineParts.Length != 2)
+			{
+				return new ConfigurationToken();
+			}
+
+			ConfigurationToken token = new ConfigurationToken();
+			token.ConfigKey = lineParts[0].Trim();
+			token.ConfigValue = lineParts[1].Trim();
+
+			int indexOfFirst = token.ConfigValue.IndexOf('"');
+			int indexOfLast = token.ConfigValue.LastIndexOf('"');
+
+			if (indexOfFirst < 0 || indexOfLast == indexOfFirst)
+			{
+				return new ConfigurationToken();
+			}
+
+			token.ConfigValue = token.ConfigValue.Substring(indexOfFirst + 1, indexOfLast - indexOfFirst - 1);
+
+			return token;
+		}
+
 	}
 }

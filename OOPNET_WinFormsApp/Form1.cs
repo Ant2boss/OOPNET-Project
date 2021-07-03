@@ -30,6 +30,10 @@ namespace OOPNET_WinFormsApp
 				Console.WriteLine($"[{key}] -> '{dictionary[key]}'");
 			}
 			Console.WriteLine("=====================================");
+
+			dictionary["Value1"] = "20";
+
+			ConfigurationParser.UpdateConfigFile("parseTest.txt", dictionary);
 		}
 	}
 }
