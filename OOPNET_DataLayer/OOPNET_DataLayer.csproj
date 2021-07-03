@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigurationManager\DAL_ApplicationConfig.cs" />
     <Compile Include="Models\Converters\Converter.cs" />
     <Compile Include="Models\Converters\DescriptionConverter.cs" />
     <Compile Include="Models\Match.cs" />
