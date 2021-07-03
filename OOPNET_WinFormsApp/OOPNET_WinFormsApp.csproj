@@ -72,6 +72,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -110,6 +113,10 @@
     <ProjectReference Include="..\OOPNET_DataLayer\OOPNET_DataLayer.csproj">
       <Project>{2fc290a5-f3d9-4636-86ef-e4483a03d8b6}</Project>
       <Name>OOPNET_DataLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OOPNET_Utils\OOPNET_Utils.csproj">
+      <Project>{a8fb6cb1-cde6-4667-aa30-ddcad9d59d55}</Project>
+      <Name>OOPNET_Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

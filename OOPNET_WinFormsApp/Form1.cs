@@ -1,6 +1,7 @@
 ﻿using OOPNET_DataLayer.Models;
 using OOPNET_DataLayer.Repository;
 using OOPNET_DataLayer.Repository.RepoInternals;
+using OOPNET_Utils.Configuration;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,11 +19,17 @@ namespace OOPNET_WinFormsApp
 		public Form1()
 		{
 			InitializeComponent();
+		}
 
-			ITeamsRepo teamsRepo = RepoFactory.GetTeamsRepo();
+		private void button1_Click(object sender, EventArgs e)
+		{
+			IDictionary<string, string> dictionary = ConfigurationParser.ParseConfigFile("parseTest.txt");
 
-			IList<TeamResults> teams = teamsRepo.GetAllTeamResults();
-			Console.WriteLine(teams.Count);
+			foreach (string key in dictionary.Keys)
+			{
+				Console.WriteLine($"[{key}] -> '{dictionary[key]}'");
+			}
+			Console.WriteLine("=====================================");
 		}
 	}
 }
