@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using OOPNET_DataLayer.Models.Converters;
 using System;
+using System.Collections.Generic;
 
 //Auto-generated using: https://app.quicktype.io/
 namespace OOPNET_DataLayer.Models
@@ -19,25 +20,22 @@ namespace OOPNET_DataLayer.Models
         [JsonProperty("position")]
         public string Position { get; set; }
 
-		public static MatchPlayer ParseFileLine(string line, char del)
+		public override bool Equals(object obj)
 		{
-            string[] lineParts = line.Split(del);
-
-            if (lineParts.Length != 4)
-            {
-                return null;
-            }
-
-            MatchPlayer player = new MatchPlayer();
-
-            player.Name = lineParts[0];
-            player.Captain = bool.Parse(lineParts[1]);
-            player.ShirtNumber = long.Parse(lineParts[2]);
-            player.Position = lineParts[3];
-
-            return player;
-        }
-
-        public string FormatForFileLine(char del) => $"{this.Name}{del}{this.Captain}{del}{this.ShirtNumber}{del}{this.Position}";
+			return obj is MatchPlayer player &&
+				   Name == player.Name &&
+				   Captain == player.Captain &&
+				   ShirtNumber == player.ShirtNumber &&
+				   Position == player.Position;
+		}
+		public override int GetHashCode()
+		{
+			int hashCode = 412083565;
+			hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
+			hashCode = hashCode * -1521134295 + Captain.GetHashCode();
+			hashCode = hashCode * -1521134295 + ShirtNumber.GetHashCode();
+			hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Position);
+			return hashCode;
+		}
 	}
 }

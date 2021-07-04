@@ -29,6 +29,8 @@ namespace OOPNET_WinFormsApp.UserControls
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PlayerUC));
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
@@ -39,113 +41,107 @@ namespace OOPNET_WinFormsApp.UserControls
 			this.lbPosition = new System.Windows.Forms.Label();
 			this.lbIsCaptain = new System.Windows.Forms.Label();
 			this.lbIsFavorite = new System.Windows.Forms.Label();
+			this.btnEdit = new System.Windows.Forms.Button();
+			this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.tsbtnAddToFavorites = new System.Windows.Forms.ToolStripMenuItem();
+			this.tsbtnRemoveFromFavorites = new System.Windows.Forms.ToolStripMenuItem();
+			this.pbPicture = new System.Windows.Forms.PictureBox();
+			this.contextMenu.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pbPicture)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// label1
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.label1.Location = new System.Drawing.Point(62, 9);
+			resources.ApplyResources(this.label1, "label1");
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(33, 16);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "Ime:";
 			// 
 			// label2
 			// 
-			this.label2.AutoSize = true;
-			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.label2.Location = new System.Drawing.Point(60, 25);
+			resources.ApplyResources(this.label2, "label2");
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(35, 16);
-			this.label2.TabIndex = 1;
-			this.label2.Text = "Broj:";
 			// 
 			// label3
 			// 
-			this.label3.AutoSize = true;
-			this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.label3.Location = new System.Drawing.Point(37, 41);
+			resources.ApplyResources(this.label3, "label3");
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(58, 16);
-			this.label3.TabIndex = 2;
-			this.label3.Text = "Pozicija:";
 			// 
 			// label4
 			// 
-			this.label4.AutoSize = true;
-			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.label4.Location = new System.Drawing.Point(34, 57);
+			resources.ApplyResources(this.label4, "label4");
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(61, 16);
-			this.label4.TabIndex = 3;
-			this.label4.Text = "Kapetan:";
 			// 
 			// label5
 			// 
-			this.label5.AutoSize = true;
-			this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.label5.Location = new System.Drawing.Point(3, 73);
+			resources.ApplyResources(this.label5, "label5");
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(92, 16);
-			this.label5.TabIndex = 4;
-			this.label5.Text = "Omiljeni igrač:";
 			// 
 			// lbName
 			// 
-			this.lbName.AutoSize = true;
-			this.lbName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lbName.Location = new System.Drawing.Point(102, 9);
+			resources.ApplyResources(this.lbName, "lbName");
 			this.lbName.Name = "lbName";
-			this.lbName.Size = new System.Drawing.Size(80, 16);
-			this.lbName.TabIndex = 5;
-			this.lbName.Text = "placeholder";
 			// 
 			// lbShirtNumber
 			// 
-			this.lbShirtNumber.AutoSize = true;
-			this.lbShirtNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lbShirtNumber.Location = new System.Drawing.Point(102, 25);
+			resources.ApplyResources(this.lbShirtNumber, "lbShirtNumber");
 			this.lbShirtNumber.Name = "lbShirtNumber";
-			this.lbShirtNumber.Size = new System.Drawing.Size(80, 16);
-			this.lbShirtNumber.TabIndex = 6;
-			this.lbShirtNumber.Text = "placeholder";
 			// 
 			// lbPosition
 			// 
-			this.lbPosition.AutoSize = true;
-			this.lbPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lbPosition.Location = new System.Drawing.Point(102, 41);
+			resources.ApplyResources(this.lbPosition, "lbPosition");
 			this.lbPosition.Name = "lbPosition";
-			this.lbPosition.Size = new System.Drawing.Size(80, 16);
-			this.lbPosition.TabIndex = 7;
-			this.lbPosition.Text = "placeholder";
 			// 
 			// lbIsCaptain
 			// 
-			this.lbIsCaptain.AutoSize = true;
-			this.lbIsCaptain.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lbIsCaptain.Location = new System.Drawing.Point(102, 57);
+			resources.ApplyResources(this.lbIsCaptain, "lbIsCaptain");
 			this.lbIsCaptain.Name = "lbIsCaptain";
-			this.lbIsCaptain.Size = new System.Drawing.Size(80, 16);
-			this.lbIsCaptain.TabIndex = 8;
-			this.lbIsCaptain.Text = "placeholder";
 			// 
 			// lbIsFavorite
 			// 
-			this.lbIsFavorite.AutoSize = true;
-			this.lbIsFavorite.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.lbIsFavorite.Location = new System.Drawing.Point(102, 73);
+			resources.ApplyResources(this.lbIsFavorite, "lbIsFavorite");
 			this.lbIsFavorite.Name = "lbIsFavorite";
-			this.lbIsFavorite.Size = new System.Drawing.Size(80, 16);
-			this.lbIsFavorite.TabIndex = 9;
-			this.lbIsFavorite.Text = "placeholder";
+			// 
+			// btnEdit
+			// 
+			resources.ApplyResources(this.btnEdit, "btnEdit");
+			this.btnEdit.Name = "btnEdit";
+			this.btnEdit.UseVisualStyleBackColor = true;
+			this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
+			// 
+			// contextMenu
+			// 
+			resources.ApplyResources(this.contextMenu, "contextMenu");
+			this.contextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsbtnAddToFavorites,
+            this.tsbtnRemoveFromFavorites});
+			this.contextMenu.Name = "contextMenu";
+			// 
+			// tsbtnAddToFavorites
+			// 
+			resources.ApplyResources(this.tsbtnAddToFavorites, "tsbtnAddToFavorites");
+			this.tsbtnAddToFavorites.Name = "tsbtnAddToFavorites";
+			this.tsbtnAddToFavorites.Click += new System.EventHandler(this.tsbtnAddToFavorites_Click);
+			// 
+			// tsbtnRemoveFromFavorites
+			// 
+			resources.ApplyResources(this.tsbtnRemoveFromFavorites, "tsbtnRemoveFromFavorites");
+			this.tsbtnRemoveFromFavorites.Name = "tsbtnRemoveFromFavorites";
+			this.tsbtnRemoveFromFavorites.Click += new System.EventHandler(this.tsbtnRemoveFromFavorites_Click);
+			// 
+			// pbPicture
+			// 
+			resources.ApplyResources(this.pbPicture, "pbPicture");
+			this.pbPicture.Image = global::OOPNET_WinFormsApp.Properties.Resources.noimage;
+			this.pbPicture.Name = "pbPicture";
+			this.pbPicture.TabStop = false;
 			// 
 			// PlayerUC
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.ContextMenuStrip = this.contextMenu;
+			this.Controls.Add(this.btnEdit);
+			this.Controls.Add(this.pbPicture);
 			this.Controls.Add(this.lbIsFavorite);
 			this.Controls.Add(this.lbIsCaptain);
 			this.Controls.Add(this.lbPosition);
@@ -157,8 +153,9 @@ namespace OOPNET_WinFormsApp.UserControls
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label1);
 			this.Name = "PlayerUC";
-			this.Size = new System.Drawing.Size(337, 101);
 			this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PlayerUC_MouseDown);
+			this.contextMenu.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.pbPicture)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -176,5 +173,10 @@ namespace OOPNET_WinFormsApp.UserControls
 		private System.Windows.Forms.Label lbPosition;
 		private System.Windows.Forms.Label lbIsCaptain;
 		private System.Windows.Forms.Label lbIsFavorite;
+		private System.Windows.Forms.PictureBox pbPicture;
+		private System.Windows.Forms.Button btnEdit;
+		private System.Windows.Forms.ContextMenuStrip contextMenu;
+		private System.Windows.Forms.ToolStripMenuItem tsbtnAddToFavorites;
+		private System.Windows.Forms.ToolStripMenuItem tsbtnRemoveFromFavorites;
 	}
 }
