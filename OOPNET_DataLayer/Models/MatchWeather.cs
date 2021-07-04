@@ -23,7 +23,6 @@ namespace OOPNET_DataLayer.Models
         public long WindSpeed { get; set; }
 
         [JsonProperty("description")]
-        [JsonConverter(typeof(DescriptionConverter))]
-        public Description Description { get; set; }
+        public string Description { get; set; }
     }
 }

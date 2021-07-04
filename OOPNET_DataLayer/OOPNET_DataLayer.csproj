@@ -48,23 +48,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigurationManager\DAL_ApplicationConfig.cs" />
+    <Compile Include="Configs\GlobalConfig.cs" />
     <Compile Include="Models\Converters\Converter.cs" />
-    <Compile Include="Models\Converters\DescriptionConverter.cs" />
     <Compile Include="Models\Match.cs" />
-    <Compile Include="Models\Converters\PositionConverter.cs" />
     <Compile Include="Models\Converters\ParseStringConverter.cs" />
-    <Compile Include="Models\Converters\StageNameConverter.cs" />
     <Compile Include="Models\MatchStartingEleven.cs" />
-    <Compile Include="Models\Converters\StatusConverter.cs" />
-    <Compile Include="Models\Converters\TacticsConverter.cs" />
     <Compile Include="Models\MatchTeam.cs" />
     <Compile Include="Models\MatchTeamEvent.cs" />
     <Compile Include="Models\Team.cs" />
     <Compile Include="Models\TeamResults.cs" />
     <Compile Include="Models\MatchTeamStatistics.cs" />
-    <Compile Include="Models\Converters\TypeOfEventConverter.cs" />
-    <Compile Include="Models\Converters\TimeConverter.cs" />
     <Compile Include="Models\MatchWeather.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\IMatchesRepo.cs" />
@@ -77,6 +70,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OOPNET_Utils\OOPNET_Utils.csproj">
+      <Project>{a8fb6cb1-cde6-4667-aa30-ddcad9d59d55}</Project>
+      <Name>OOPNET_Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

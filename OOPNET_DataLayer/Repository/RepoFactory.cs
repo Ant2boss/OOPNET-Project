@@ -1,4 +1,6 @@
-﻿using OOPNET_DataLayer.Repository.RepoInternals;
+﻿using OOPNET_DataLayer.Configs;
+using OOPNET_DataLayer.Repository.RepoInternals;
+using OOPNET_Utils.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +13,16 @@ namespace OOPNET_DataLayer.Repository
 
 	public static class RepoFactory
 	{
-		private static readonly bool IS_ONLINE = true;
-		private static readonly bool IS_FEMALE_CUP = true;
+		private static readonly bool IS_ONLINE;
+		private static readonly bool IS_FEMALE_CUP;
+
+		static RepoFactory()
+		{
+			IDictionary<string, string> config = ConfigurationParser.ParseConfigFile(GlobalConfig.CONFIG_PATH);
+
+			IS_ONLINE = bool.Parse(config[GlobalConfig.CONFK_USE_WEB]);
+			IS_FEMALE_CUP = config[GlobalConfig.CONFK_CUP_TYPE].Equals(CupType.FemaleCup.ToString());
+		}
 
 		public static ITeamsRepo GetTeamsRepo()
 		{

@@ -59,8 +59,7 @@ namespace OOPNET_DataLayer.Models
         public long? FoulsCommitted { get; set; }
 
         [JsonProperty("tactics")]
-        [JsonConverter(typeof(TacticsConverter))]
-        public Tactics Tactics { get; set; }
+        public string Tactics { get; set; }
 
         [JsonProperty("starting_eleven")]
         public IList<MatchStartingEleven> StartingEleven { get; set; }

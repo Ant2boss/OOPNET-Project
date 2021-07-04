@@ -10,8 +10,7 @@ namespace OOPNET_DataLayer.Models
         public long ID { get; set; }
 
         [JsonProperty("type_of_event")]
-        [JsonConverter(typeof(TypeOfEventConverter))]
-        public TypeOfEvent TypeOfEvent { get; set; }
+        public string TypeOfEvent { get; set; }
 
         [JsonProperty("player")]
         public string Player { get; set; }

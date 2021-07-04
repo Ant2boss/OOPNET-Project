@@ -9,20 +9,6 @@ using System.Threading.Tasks;
 //Auto-generated using: https://app.quicktype.io/
 namespace OOPNET_DataLayer.Models
 {
-	public enum TypeOfEvent { Goal, GoalOwn, GoalPenalty, RedCard, SubstitutionIn, SubstitutionOut, YellowCard, YellowCardSecond };
-
-	public enum Position { Defender, Forward, Goalie, Midfield };
-
-	public enum Tactics { The433, The442, The451, The532, The541 };
-
-	public enum StageName { Final, FirstStage, MatchForThirdPlace, QuarterFinal, RoundOf16, SemiFinal };
-
-	public enum Status { Completed };
-
-	public enum Time { FullTime };
-
-	public enum Description { Cloudy, CloudyNight, PartlyCloudy, PartlyCloudyNight, Sunny };
-
 	public class Match
 	{
 		[JsonProperty("venue")]
@@ -32,12 +18,10 @@ namespace OOPNET_DataLayer.Models
 		public string Location { get; set; }
 
 		[JsonProperty("status")]
-		[JsonConverter(typeof(StatusConverter))]
-		public Status Status { get; set; }
+		public string Status { get; set; }
 
 		[JsonProperty("time")]
-		[JsonConverter(typeof(TimeConverter))]
-		public Time Time { get; set; }
+		public string Time { get; set; }
 
 		[JsonProperty("fifa_id")]
 		[JsonConverter(typeof(ParseStringConverter))]
@@ -54,8 +38,7 @@ namespace OOPNET_DataLayer.Models
 		public IList<string> Officials { get; set; }
 
 		[JsonProperty("stage_name")]
-		[JsonConverter(typeof(StageNameConverter))]
-		public StageName StageName { get; set; }
+		public string StageName { get; set; }
 
 		[JsonProperty("home_team_country")]
 		public string HomeTeamCountry { get; set; }

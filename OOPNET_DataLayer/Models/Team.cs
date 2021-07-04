@@ -27,5 +27,7 @@ namespace OOPNET_DataLayer.Models
 
         [JsonProperty("group_letter")]
         public string GroupLetter { get; set; }
-    }
+
+        public override string ToString() => $"{this.Country} ({this.FifaCode})";
+	}
 }

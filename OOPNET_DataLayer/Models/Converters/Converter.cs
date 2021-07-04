@@ -13,13 +13,6 @@ namespace OOPNET_DataLayer.Models.Converters
 			DateParseHandling = DateParseHandling.None,
 			Converters =
 			{
-				TypeOfEventConverter.Singleton,
-				PositionConverter.Singleton,
-				TacticsConverter.Singleton,
-				StageNameConverter.Singleton,
-				StatusConverter.Singleton,
-				TimeConverter.Singleton,
-				DescriptionConverter.Singleton,
 				new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
 			},
 		};

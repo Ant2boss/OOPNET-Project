@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configs\LocalConfig.cs" />
     <Compile Include="Initializations\RepresentationChooser.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -16,7 +16,6 @@ namespace OOPNET_DataLayer.Models
         public long ShirtNumber { get; set; }
 
         [JsonProperty("position")]
-        [JsonConverter(typeof(PositionConverter))]
-        public Position Position { get; set; }
+        public string Position { get; set; }
     }
 }

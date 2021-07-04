@@ -30,18 +30,39 @@ namespace OOPNET_WinFormsApp
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+			this.label1 = new System.Windows.Forms.Label();
+			this.cbTeams = new System.Windows.Forms.ComboBox();
 			this.SuspendLayout();
+			// 
+			// label1
+			// 
+			resources.ApplyResources(this.label1, "label1");
+			this.label1.Name = "label1";
+			// 
+			// cbTeams
+			// 
+			this.cbTeams.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbTeams.FormattingEnabled = true;
+			resources.ApplyResources(this.cbTeams, "cbTeams");
+			this.cbTeams.Name = "cbTeams";
+			this.cbTeams.SelectedIndexChanged += new System.EventHandler(this.cbTeams_SelectedIndexChanged);
 			// 
 			// MainForm
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.cbTeams);
+			this.Controls.Add(this.label1);
 			this.Name = "MainForm";
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
 		#endregion
+
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.ComboBox cbTeams;
 	}
 }
 
