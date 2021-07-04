@@ -62,9 +62,9 @@ namespace OOPNET_DataLayer.Models
         public string Tactics { get; set; }
 
         [JsonProperty("starting_eleven")]
-        public IList<MatchStartingEleven> StartingEleven { get; set; }
+        public IList<MatchPlayer> StartingEleven { get; set; }
 
         [JsonProperty("substitutes")]
-        public IList<MatchStartingEleven> Substitutes { get; set; }
+        public IList<MatchPlayer> Substitutes { get; set; }
     }
 }

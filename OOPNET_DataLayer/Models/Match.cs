@@ -77,7 +77,7 @@ namespace OOPNET_DataLayer.Models
 		public DateTimeOffset LastEventUpdateAt { get; set; }
 
 		[JsonProperty("last_score_update_at")]
-		public DateTimeOffset LastScoreUpdateAt { get; set; }
+		public DateTimeOffset? LastScoreUpdateAt { get; set; }
 
 		public static IList<Match> ParseJsonToMatches(string Json)
 		{

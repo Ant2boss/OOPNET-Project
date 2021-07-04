@@ -52,7 +52,7 @@
     <Compile Include="Models\Converters\Converter.cs" />
     <Compile Include="Models\Match.cs" />
     <Compile Include="Models\Converters\ParseStringConverter.cs" />
-    <Compile Include="Models\MatchStartingEleven.cs" />
+    <Compile Include="Models\MatchPlayer.cs" />
     <Compile Include="Models\MatchTeam.cs" />
     <Compile Include="Models\MatchTeamEvent.cs" />
     <Compile Include="Models\Team.cs" />

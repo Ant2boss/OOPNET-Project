@@ -23,8 +23,7 @@ namespace OOPNET_DataLayer.Repository.RepoInternals
 
 		public IList<Match> GetMatchesOfCountry(string FifaCode)
 		{
-			string fileContent = File.ReadAllText(this._GetMatchQuery());
-			return JsonConvert.DeserializeObject<List<Match>>(fileContent)
+			return this.GetAllMatches()
 				.Where(m => m.HomeTeam.Code.ToLower() == FifaCode.ToLower() || m.AwayTeam.Code.ToLower() == FifaCode.ToLower())
 				.ToList();
 		}
