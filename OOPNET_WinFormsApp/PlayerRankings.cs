@@ -121,12 +121,14 @@ namespace OOPNET_WinFormsApp
 
 		private void printToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			this.printDialog.ShowDialog();
+			if (this.printDialog.ShowDialog() == DialogResult.OK)
+			{ 
+				this.printDocument.PrinterSettings = this.printDialog.PrinterSettings;
+				this._PageNumber = 0;
 
-			this.printDocument.PrinterSettings = this.printDialog.PrinterSettings;
-			this._PageNumber = 0;
+				this.printDocument.Print();
+			}
 
-			this.printDocument.Print();
 		}
 
 		private void closeToolStripMenuItem_Click(object sender, EventArgs e)

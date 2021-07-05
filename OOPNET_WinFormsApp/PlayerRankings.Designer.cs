@@ -69,9 +69,9 @@ namespace OOPNET_WinFormsApp
 			// 
 			// dgvGoalTable
 			// 
+			resources.ApplyResources(this.dgvGoalTable, "dgvGoalTable");
 			this.dgvGoalTable.AllowUserToAddRows = false;
 			this.dgvGoalTable.AllowUserToDeleteRows = false;
-			resources.ApplyResources(this.dgvGoalTable, "dgvGoalTable");
 			this.dgvGoalTable.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dgvGoalTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dgvGoalTable.Name = "dgvGoalTable";
@@ -79,9 +79,9 @@ namespace OOPNET_WinFormsApp
 			// 
 			// dgvYellowCardTable
 			// 
+			resources.ApplyResources(this.dgvYellowCardTable, "dgvYellowCardTable");
 			this.dgvYellowCardTable.AllowUserToAddRows = false;
 			this.dgvYellowCardTable.AllowUserToDeleteRows = false;
-			resources.ApplyResources(this.dgvYellowCardTable, "dgvYellowCardTable");
 			this.dgvYellowCardTable.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dgvYellowCardTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dgvYellowCardTable.Name = "dgvYellowCardTable";
@@ -89,9 +89,9 @@ namespace OOPNET_WinFormsApp
 			// 
 			// dgvViewerTable
 			// 
+			resources.ApplyResources(this.dgvViewerTable, "dgvViewerTable");
 			this.dgvViewerTable.AllowUserToAddRows = false;
 			this.dgvViewerTable.AllowUserToDeleteRows = false;
-			resources.ApplyResources(this.dgvViewerTable, "dgvViewerTable");
 			this.dgvViewerTable.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dgvViewerTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dgvViewerTable.Name = "dgvViewerTable";
@@ -104,35 +104,35 @@ namespace OOPNET_WinFormsApp
 			// 
 			// menuStrip1
 			// 
+			resources.ApplyResources(this.menuStrip1, "menuStrip1");
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem});
-			resources.ApplyResources(this.menuStrip1, "menuStrip1");
 			this.menuStrip1.Name = "menuStrip1";
 			// 
 			// fileToolStripMenuItem
 			// 
+			resources.ApplyResources(this.fileToolStripMenuItem, "fileToolStripMenuItem");
 			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.printToolStripMenuItem,
             this.toolStripSeparator1,
             this.closeToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-			resources.ApplyResources(this.fileToolStripMenuItem, "fileToolStripMenuItem");
 			// 
 			// printToolStripMenuItem
 			// 
-			this.printToolStripMenuItem.Name = "printToolStripMenuItem";
 			resources.ApplyResources(this.printToolStripMenuItem, "printToolStripMenuItem");
+			this.printToolStripMenuItem.Name = "printToolStripMenuItem";
 			this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			// 
 			// closeToolStripMenuItem
 			// 
-			this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
 			resources.ApplyResources(this.closeToolStripMenuItem, "closeToolStripMenuItem");
+			this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
 			this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
 			// 
 			// printDialog

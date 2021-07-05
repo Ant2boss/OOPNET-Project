@@ -120,13 +120,19 @@
   <data name="label1.Text" xml:space="preserve">
     <value>Jezik</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="btnContiniue.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 239</value>
+  </data>
   <data name="&gt;&gt;btnContiniue.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="cbFemale.Text" xml:space="preserve">
     <value>Žensko prvenstvo</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <data name="cbMale.Location" type="System.Drawing.Point, System.Drawing">
     <value>17, 165</value>
   </data>
@@ -150,6 +156,9 @@
     <value>17, 188</value>
   </data>
   <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btnClose.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
@@ -180,10 +189,13 @@
     <value>12, 9</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="lsLanguages.Location" type="System.Drawing.Point, System.Drawing">
     <value>64, 65</value>
+  </data>
+  <data name="&gt;&gt;btnClose.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -207,7 +219,7 @@
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>78, 20</value>
@@ -221,8 +233,14 @@
   <data name="cbFemale.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
   </data>
-  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 131</value>
+  <data name="&gt;&gt;cbFemale.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="btnClose.Size" type="System.Drawing.Size, System.Drawing">
+    <value>192, 40</value>
+  </data>
+  <data name="&gt;&gt;btnClose.Name" xml:space="preserve">
+    <value>btnClose</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>Odabir prvenstva</value>
@@ -236,14 +254,17 @@
   <data name="cbMale.Size" type="System.Drawing.Size, System.Drawing">
     <value>107, 17</value>
   </data>
-  <data name="&gt;&gt;cbFemale.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
   <data name="&gt;&gt;cbMale.Type" xml:space="preserve">
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label2.Parent" xml:space="preserve">
     <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="btnClose.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
   </data>
   <data name="&gt;&gt;btnContiniue.Parent" xml:space="preserve">
     <value>$this</value>
@@ -269,17 +290,23 @@
   <data name="&gt;&gt;cbMale.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="cbFemale.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>CupChooser</value>
+  </data>
+  <data name="btnClose.Text" xml:space="preserve">
+    <value>Odustani</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 63</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Odabir prvenstva</value>
+  </data>
+  <data name="&gt;&gt;btnClose.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>Prvenstvo</value>
@@ -290,20 +317,21 @@
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 13</value>
   </data>
-  <data name="btnContiniue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 239</value>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 131</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="btnClose.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="&gt;&gt;cbFemale.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;lsLanguages.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="lsLanguages.Size" type="System.Drawing.Size, System.Drawing">
-    <value>211, 21</value>
+    <value>7</value>
   </data>
   <data name="&gt;&gt;cbMale.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;btnContiniue.Name" xml:space="preserve">
     <value>btnContiniue</value>
@@ -312,16 +340,16 @@
     <value>111, 17</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>287, 291</value>
+    <value>287, 342</value>
   </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>RepresentationChooser</value>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="btnClose.Location" type="System.Drawing.Point, System.Drawing">
+    <value>47, 290</value>
   </data>
-  <data name="&gt;&gt;label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="lsLanguages.Size" type="System.Drawing.Size, System.Drawing">
+    <value>211, 21</value>
   </data>
   <data name="&gt;&gt;label3.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

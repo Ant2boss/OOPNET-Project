@@ -121,7 +121,7 @@ namespace OOPNET_WinFormsApp
 
 		private bool _GlobalConfigChooser(IDictionary<string, string> config)
 		{
-			RepresentationChooser repChooser = new RepresentationChooser();
+			CupChooser repChooser = new CupChooser();
 			if (repChooser.ShowDialog() == DialogResult.OK)
 			{
 				config[CONFK_CULTURE] = repChooser.GetCulture();
@@ -329,6 +329,15 @@ namespace OOPNET_WinFormsApp
 			IDictionary<string, string> config = ConfigurationParser.ParseConfigFile(USER_CONFIG_FILE_PATH);
 
 			new PlayerRankings(config[CONFK_FAVORITE], FAVORITE_PLAYERS_PATH, FAVORITE_PLAYERS_DELIM).Show();
+		}
+
+		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			DialogResult confirmResult = MessageBox.Show("Realy?", "Exit", MessageBoxButtons.OKCancel);
+			if (confirmResult == DialogResult.OK)
+			{
+				Application.Exit();
+			}
 		}
 	}
 }

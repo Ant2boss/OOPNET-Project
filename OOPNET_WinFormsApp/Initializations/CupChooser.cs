@@ -11,9 +11,9 @@ using System.Windows.Forms;
 
 namespace OOPNET_WinFormsApp.Initializations
 {
-	public partial class RepresentationChooser : Form
+	public partial class CupChooser : Form
 	{
-		public RepresentationChooser()
+		public CupChooser()
 		{
 			InitializeComponent();
 
@@ -49,6 +49,16 @@ namespace OOPNET_WinFormsApp.Initializations
 			{
 				return CupType.FemaleCup.ToString();
 			}
+		}
+
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		{
+			if (keyData == Keys.Enter)
+			{
+				this.btnContiniue.PerformClick();
+			}
+
+			return base.ProcessCmdKey(ref msg, keyData);
 		}
 
 	}

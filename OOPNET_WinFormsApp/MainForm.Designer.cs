@@ -44,6 +44,8 @@ namespace OOPNET_WinFormsApp
 			this.postavkeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmbtnSettings = new System.Windows.Forms.ToolStripMenuItem();
 			this.btnRankings = new System.Windows.Forms.Button();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.izlazToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.statusStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -55,16 +57,16 @@ namespace OOPNET_WinFormsApp
 			// 
 			// cbTeams
 			// 
-			resources.ApplyResources(this.cbTeams, "cbTeams");
 			this.cbTeams.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cbTeams.FormattingEnabled = true;
+			resources.ApplyResources(this.cbTeams, "cbTeams");
 			this.cbTeams.Name = "cbTeams";
 			this.cbTeams.SelectedIndexChanged += new System.EventHandler(this.cbTeams_SelectedIndexChanged);
 			// 
 			// flpAllPlayers
 			// 
-			resources.ApplyResources(this.flpAllPlayers, "flpAllPlayers");
 			this.flpAllPlayers.AllowDrop = true;
+			resources.ApplyResources(this.flpAllPlayers, "flpAllPlayers");
 			this.flpAllPlayers.BackColor = System.Drawing.Color.White;
 			this.flpAllPlayers.Name = "flpAllPlayers";
 			this.flpAllPlayers.DragDrop += new System.Windows.Forms.DragEventHandler(this.flpAllPlayers_DragDrop);
@@ -72,21 +74,21 @@ namespace OOPNET_WinFormsApp
 			// 
 			// statusStrip1
 			// 
-			resources.ApplyResources(this.statusStrip1, "statusStrip1");
 			this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsProgressBar,
             this.tslbProgressLabel});
+			resources.ApplyResources(this.statusStrip1, "statusStrip1");
 			this.statusStrip1.Name = "statusStrip1";
 			// 
 			// tsProgressBar
 			// 
-			resources.ApplyResources(this.tsProgressBar, "tsProgressBar");
 			this.tsProgressBar.Name = "tsProgressBar";
+			resources.ApplyResources(this.tsProgressBar, "tsProgressBar");
 			// 
 			// tslbProgressLabel
 			// 
-			resources.ApplyResources(this.tslbProgressLabel, "tslbProgressLabel");
 			this.tslbProgressLabel.Name = "tslbProgressLabel";
+			resources.ApplyResources(this.tslbProgressLabel, "tslbProgressLabel");
 			// 
 			// bgWorkerPlayerLoader
 			// 
@@ -96,8 +98,8 @@ namespace OOPNET_WinFormsApp
 			// 
 			// flpFavoritePlayers
 			// 
-			resources.ApplyResources(this.flpFavoritePlayers, "flpFavoritePlayers");
 			this.flpFavoritePlayers.AllowDrop = true;
+			resources.ApplyResources(this.flpFavoritePlayers, "flpFavoritePlayers");
 			this.flpFavoritePlayers.BackColor = System.Drawing.Color.White;
 			this.flpFavoritePlayers.Name = "flpFavoritePlayers";
 			this.flpFavoritePlayers.DragDrop += new System.Windows.Forms.DragEventHandler(this.flpFavoritePlayers_DragDrop);
@@ -115,22 +117,24 @@ namespace OOPNET_WinFormsApp
 			// 
 			// menuStrip1
 			// 
-			resources.ApplyResources(this.menuStrip1, "menuStrip1");
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.postavkeToolStripMenuItem});
+			resources.ApplyResources(this.menuStrip1, "menuStrip1");
 			this.menuStrip1.Name = "menuStrip1";
 			// 
 			// postavkeToolStripMenuItem
 			// 
-			resources.ApplyResources(this.postavkeToolStripMenuItem, "postavkeToolStripMenuItem");
 			this.postavkeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmbtnSettings});
+            this.tsmbtnSettings,
+            this.toolStripSeparator1,
+            this.izlazToolStripMenuItem});
 			this.postavkeToolStripMenuItem.Name = "postavkeToolStripMenuItem";
+			resources.ApplyResources(this.postavkeToolStripMenuItem, "postavkeToolStripMenuItem");
 			// 
 			// tsmbtnSettings
 			// 
-			resources.ApplyResources(this.tsmbtnSettings, "tsmbtnSettings");
 			this.tsmbtnSettings.Name = "tsmbtnSettings";
+			resources.ApplyResources(this.tsmbtnSettings, "tsmbtnSettings");
 			this.tsmbtnSettings.Click += new System.EventHandler(this.tsmbtnSettings_Click);
 			// 
 			// btnRankings
@@ -139,6 +143,17 @@ namespace OOPNET_WinFormsApp
 			this.btnRankings.Name = "btnRankings";
 			this.btnRankings.UseVisualStyleBackColor = true;
 			this.btnRankings.Click += new System.EventHandler(this.btnRankings_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
+			// 
+			// izlazToolStripMenuItem
+			// 
+			this.izlazToolStripMenuItem.Name = "izlazToolStripMenuItem";
+			resources.ApplyResources(this.izlazToolStripMenuItem, "izlazToolStripMenuItem");
+			this.izlazToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
 			// 
 			// MainForm
 			// 
@@ -180,6 +195,8 @@ namespace OOPNET_WinFormsApp
 		private System.Windows.Forms.ToolStripMenuItem postavkeToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem tsmbtnSettings;
 		private System.Windows.Forms.Button btnRankings;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripMenuItem izlazToolStripMenuItem;
 	}
 }
 

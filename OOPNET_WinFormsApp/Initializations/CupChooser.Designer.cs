@@ -1,7 +1,7 @@
 ﻿
 namespace OOPNET_WinFormsApp.Initializations
 {
-	partial class RepresentationChooser
+	partial class CupChooser
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -29,7 +29,7 @@ namespace OOPNET_WinFormsApp.Initializations
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RepresentationChooser));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CupChooser));
 			this.lsLanguages = new System.Windows.Forms.ComboBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.btnContiniue = new System.Windows.Forms.Button();
@@ -37,6 +37,7 @@ namespace OOPNET_WinFormsApp.Initializations
 			this.label3 = new System.Windows.Forms.Label();
 			this.cbMale = new System.Windows.Forms.RadioButton();
 			this.cbFemale = new System.Windows.Forms.RadioButton();
+			this.btnClose = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// lsLanguages
@@ -83,10 +84,19 @@ namespace OOPNET_WinFormsApp.Initializations
 			this.cbFemale.Name = "cbFemale";
 			this.cbFemale.UseVisualStyleBackColor = true;
 			// 
-			// RepresentationChooser
+			// btnClose
+			// 
+			resources.ApplyResources(this.btnClose, "btnClose");
+			this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.btnClose.Name = "btnClose";
+			this.btnClose.UseVisualStyleBackColor = true;
+			// 
+			// CupChooser
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.CancelButton = this.btnClose;
+			this.Controls.Add(this.btnClose);
 			this.Controls.Add(this.cbFemale);
 			this.Controls.Add(this.cbMale);
 			this.Controls.Add(this.label3);
@@ -94,7 +104,7 @@ namespace OOPNET_WinFormsApp.Initializations
 			this.Controls.Add(this.btnContiniue);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.lsLanguages);
-			this.Name = "RepresentationChooser";
+			this.Name = "CupChooser";
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -109,5 +119,6 @@ namespace OOPNET_WinFormsApp.Initializations
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.RadioButton cbMale;
 		private System.Windows.Forms.RadioButton cbFemale;
+		private System.Windows.Forms.Button btnClose;
 	}
 }
