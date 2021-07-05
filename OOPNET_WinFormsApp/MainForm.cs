@@ -323,5 +323,12 @@ namespace OOPNET_WinFormsApp
 				Application.Exit();
 			}
 		}
+
+		private void btnRankings_Click(object sender, EventArgs e)
+		{
+			IDictionary<string, string> config = ConfigurationParser.ParseConfigFile(USER_CONFIG_FILE_PATH);
+
+			new PlayerRankings(config[CONFK_FAVORITE], FAVORITE_PLAYERS_PATH, FAVORITE_PLAYERS_DELIM).Show();
+		}
 	}
 }

@@ -65,6 +65,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configs\LocalConfig.cs" />
+    <Compile Include="Dialogs\ProgressDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\ProgressDialog.Designer.cs">
+      <DependentUpon>ProgressDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Initializations\RepresentationChooser.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,6 +84,12 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\LocalPlayerView.cs" />
+    <Compile Include="PlayerRankings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PlayerRankings.Designer.cs">
+      <DependentUpon>PlayerRankings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserControls\PlayerUC.cs">
@@ -86,6 +98,9 @@
     <Compile Include="UserControls\PlayerUC.Designer.cs">
       <DependentUpon>PlayerUC.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Dialogs\ProgressDialog.resx">
+      <DependentUpon>ProgressDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Initializations\RepresentationChooser.en.resx">
       <DependentUpon>RepresentationChooser.cs</DependentUpon>
     </EmbeddedResource>
@@ -97,6 +112,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlayerRankings.resx">
+      <DependentUpon>PlayerRankings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -43,6 +43,7 @@ namespace OOPNET_WinFormsApp
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.postavkeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsmbtnSettings = new System.Windows.Forms.ToolStripMenuItem();
+			this.btnRankings = new System.Windows.Forms.Button();
 			this.statusStrip1.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -132,10 +133,18 @@ namespace OOPNET_WinFormsApp
 			resources.ApplyResources(this.tsmbtnSettings, "tsmbtnSettings");
 			this.tsmbtnSettings.Click += new System.EventHandler(this.tsmbtnSettings_Click);
 			// 
+			// btnRankings
+			// 
+			resources.ApplyResources(this.btnRankings, "btnRankings");
+			this.btnRankings.Name = "btnRankings";
+			this.btnRankings.UseVisualStyleBackColor = true;
+			this.btnRankings.Click += new System.EventHandler(this.btnRankings_Click);
+			// 
 			// MainForm
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.btnRankings);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.flpFavoritePlayers);
@@ -170,6 +179,7 @@ namespace OOPNET_WinFormsApp
 		private System.Windows.Forms.MenuStrip menuStrip1;
 		private System.Windows.Forms.ToolStripMenuItem postavkeToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem tsmbtnSettings;
+		private System.Windows.Forms.Button btnRankings;
 	}
 }
 

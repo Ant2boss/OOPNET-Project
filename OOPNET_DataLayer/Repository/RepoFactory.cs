@@ -48,6 +48,11 @@ namespace OOPNET_DataLayer.Repository
 			}
 		}
 
+		public static IPlayerRankingsRepo GetPlayerRankingsRepo(string FifaCode)
+		{
+			return new intPlayerRankingsRepo(FifaCode);
+		}
+
 		private static CupType _GetCupType() => (IS_FEMALE_CUP) ? (CupType.FemaleCup) : (CupType.MaleCup);
 	}
 }

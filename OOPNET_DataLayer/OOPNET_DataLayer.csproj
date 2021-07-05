@@ -55,17 +55,20 @@
     <Compile Include="Models\MatchPlayer.cs" />
     <Compile Include="Models\MatchTeam.cs" />
     <Compile Include="Models\MatchTeamEvent.cs" />
+    <Compile Include="Models\PlayerStatistics.cs" />
     <Compile Include="Models\Team.cs" />
     <Compile Include="Models\TeamResults.cs" />
     <Compile Include="Models\MatchTeamStatistics.cs" />
     <Compile Include="Models\MatchWeather.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\IMatchesRepo.cs" />
+    <Compile Include="Repository\IPlayerRankingsRepo.cs" />
     <Compile Include="Repository\ITeamsRepo.cs" />
     <Compile Include="Repository\RepoFactory.cs" />
     <Compile Include="Repository\RepoInternals\intLocalMatchesRepo.cs" />
     <Compile Include="Repository\RepoInternals\intLocalTeamsRepo.cs" />
     <Compile Include="Repository\RepoInternals\intWebMatchesRepo.cs" />
+    <Compile Include="Repository\RepoInternals\intPlayerRankingsRepo.cs" />
     <Compile Include="Repository\RepoInternals\intWebTeamsRepo.cs" />
   </ItemGroup>
   <ItemGroup>
