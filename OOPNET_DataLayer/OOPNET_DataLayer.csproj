@@ -53,6 +53,7 @@
     <Compile Include="Models\Match.cs" />
     <Compile Include="Models\Converters\ParseStringConverter.cs" />
     <Compile Include="Models\MatchPlayer.cs" />
+    <Compile Include="Models\MatchStatistics.cs" />
     <Compile Include="Models\MatchTeam.cs" />
     <Compile Include="Models\MatchTeamEvent.cs" />
     <Compile Include="Models\PlayerStatistics.cs" />
@@ -64,9 +65,11 @@
     <Compile Include="Repository\IMatchesRepo.cs" />
     <Compile Include="Repository\IPlayerRankingsRepo.cs" />
     <Compile Include="Repository\ITeamsRepo.cs" />
+    <Compile Include="Repository\IMatchesVisitorRankingsRepo.cs" />
     <Compile Include="Repository\RepoFactory.cs" />
     <Compile Include="Repository\RepoInternals\intLocalMatchesRepo.cs" />
     <Compile Include="Repository\RepoInternals\intLocalTeamsRepo.cs" />
+    <Compile Include="Repository\RepoInternals\intVisitorRankingsRepo.cs" />
     <Compile Include="Repository\RepoInternals\intWebMatchesRepo.cs" />
     <Compile Include="Repository\RepoInternals\intPlayerRankingsRepo.cs" />
     <Compile Include="Repository\RepoInternals\intWebTeamsRepo.cs" />

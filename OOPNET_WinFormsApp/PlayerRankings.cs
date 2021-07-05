@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -33,6 +34,8 @@ namespace OOPNET_WinFormsApp
 
 		ProgressDialog _ProgressDialog;
 
+		string _FifaCode;
+
 		private readonly string FAVORITE_PATH;
 		private readonly char FAVORITE_DELIM;
 
@@ -40,12 +43,14 @@ namespace OOPNET_WinFormsApp
 		{
 			this._ProgressDialog = new ProgressDialog();
 
-			this._LoadPlayers(FifaCode);
+			this._FifaCode = FifaCode;
+
+			this._LoadPlayers();
 		}
 
-		private void _LoadPlayers(string FifaCode)
+		private void _LoadPlayers()
 		{
-			this.bgLoader.RunWorkerAsync(FifaCode);
+			this.bgLoader.RunWorkerAsync(this._FifaCode);
 			this._ProgressDialog.ShowDialog();
 		}
 
@@ -95,45 +100,156 @@ namespace OOPNET_WinFormsApp
 			this._ProgressDialog.Close();
 		}
 
+		private IList<PlayerYellowCardView> _PlayersYellowCards;
+		private IList<PlayerGoalView> _PlayersGoals;
+		private IList<MatchStatistics> _MatchStatistics;
+
 		private void _FillForm()
 		{
-			this.flpGoalCount.Controls.Clear();
-			this.flpYellowCards.Controls.Clear();
-
 			List<PlayerStatistics> playerGoalCount = this._PlayerStatistics.ToList();
 			playerGoalCount.Sort((ps1, ps2) => -ps1.GoalCount.CompareTo(ps2.GoalCount));
-
-			playerGoalCount.ForEach(
-					ps => {
-						this.flpGoalCount.Controls.Add(this._CreatePanel(ps, ps.GoalCount));
-					}
-				);
+			this._PlayersGoals = PlayerGoalView.ListToYellowCardView(playerGoalCount).ToList();
+			this.dgvGoalTable.DataSource = this._PlayersGoals;
 
 			playerGoalCount.Sort((ps1, ps2) => -ps1.YellowCardCount.CompareTo(ps2.YellowCardCount));
+			this._PlayersYellowCards = PlayerYellowCardView.ListToYellowCardView(playerGoalCount).ToList();
+			this.dgvYellowCardTable.DataSource = this._PlayersYellowCards;
 
-			playerGoalCount.ForEach(
-					ps => {
-						this.flpYellowCards.Controls.Add(this._CreatePanel(ps, ps.YellowCardCount));
-					}
-				);
+			this._MatchStatistics = RepoFactory.GetVisitorRankingsRepo(this._FifaCode).GetMatchStatistics();
+			this.dgvViewerTable.DataSource = this._MatchStatistics;
+		}
+
+		private void printToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			this.printDialog.ShowDialog();
+
+			this.printDocument.PrinterSettings = this.printDialog.PrinterSettings;
+			this._PageNumber = 0;
+
+			this.printDocument.Print();
+		}
+
+		private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			this.Dispose();
+		}
+
+		int _PageNumber = 0;
+
+		private void printDocument_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+		{
+			switch (this._PageNumber)
+			{
+			case 0:
+				this._DrawTableFor(e, this._PlayersGoals,
+					new List<string>
+					{
+					"PlayerName",
+					"GoalCount",
+					"PlayerImage",
+					},
+					new List<Func<PlayerGoalView, string>>
+					{
+					(player) => player.PlayerName,
+					(player) => player.GoalCount.ToString(),
+					(player) => player.PlayerImage,
+					});
+				e.HasMorePages = true;
+				break;
+			case 1:
+				this._DrawTableFor(e, this._PlayersYellowCards,
+					new List<string>
+					{
+					"PlayerName",
+					"Yellow cards",
+					"PlayerImage",
+					},
+					new List<Func<PlayerYellowCardView, string>>
+					{
+					(player) => player.PlayerName,
+					(player) => player.YellowCardCount.ToString(),
+					(player) => player.PlayerImage,
+					});
+				e.HasMorePages = true;
+				break;
+			case 2:
+				this._DrawTableFor(e, this._MatchStatistics,
+					new List<string>
+					{
+					"Location",
+					"Visitior count",
+					"Home team",
+					"Away team",
+					},
+					new List<Func<MatchStatistics, string>>
+					{
+					(match) => match.Location,
+					(match) => match.VisitorCount.ToString(),
+					(match) => match.HomeTeam,
+					(match) => match.AwayTeam,
+					});
+				break;
+			default:
+					e.HasMorePages = false;
+				break;
+			}
+
+			this._PageNumber++;
+			//this._DrawTableFor(graphics, this._PlayersGoals, "PlayerName", "PlayerImage", "YellowCardCount");
+			//this._DrawTableFor(graphics, this._PlayersGoals, "Location", "VisitorCount", "HomeTeam", "AwayTeam");
 
 		}
 
-		private Control _CreatePanel(PlayerStatistics ps, int count)
+		private void _DrawTableFor<T>(PrintPageEventArgs pageArgs, IList<T> tableContent, IList<string> tableColumns, IList<Func<T, string>> tableData)
 		{
-			FlowLayoutPanel panel = new FlowLayoutPanel();
+			int columnCount = tableColumns.Count;
+			int rowCount = tableContent.Count;
 
-			panel.Width = 200;
-			panel.Height = 150;
+			int columnWidth = pageArgs.MarginBounds.Width / columnCount;
+			int columnHeight = 35;
 
-			panel.BackColor = Color.AliceBlue;
+			string fontName = "Arial";
+			int fontSize = 12;
 
-			panel.FlowDirection = FlowDirection.TopDown;
+			int stringLeftPadding = 5;
+			int stringTopPadding = (int)((columnHeight - fontSize) * 0.4);
 
-			panel.Controls.Add(new Label { Text = $"{ps.PlayerName} [{count}]", AutoSize = true });
-			panel.Controls.Add(new PictureBox { Width = 160, Height = 90, ImageLocation = ps.PlayerImage, SizeMode = PictureBoxSizeMode.StretchImage });
+			Graphics g = pageArgs.Graphics;
+			Rectangle rect = new Rectangle(0, 0, columnWidth, columnHeight);
 
-			return panel;
+			for (int i = 0; i < tableColumns.Count; ++i)
+			{
+				rect.Location = new Point(pageArgs.MarginBounds.Left + columnWidth * i, pageArgs.MarginBounds.Top);
+
+				g.FillRectangle(Brushes.LightGray, rect);
+				g.DrawRectangle(Pens.Black, rect);
+
+				rect.Location = new Point(rect.Location.X + stringLeftPadding, rect.Location.Y + stringTopPadding);
+				g.DrawString(tableColumns[i], new Font(fontName, fontSize), Brushes.Black, rect.Location);
+
+			}
+
+			for (int row = 0; row < tableContent.Count; ++row)
+			{
+				for (int col = 0; col < tableColumns.Count; ++col)
+				{
+					rect.Location = new Point(
+						pageArgs.MarginBounds.Left + columnWidth * col,
+						pageArgs.MarginBounds.Top + columnHeight * (row + 1)
+						);
+
+					if (row % 2 != 0)
+					{
+						g.FillRectangle(Brushes.LightGray, rect);
+					}
+					g.DrawRectangle(Pens.Black, rect);
+
+					rect.Location = new Point(rect.Location.X + stringLeftPadding, rect.Location.Y + stringTopPadding);
+					g.DrawString(tableData[col]?.Invoke(tableContent[row]), new Font(fontName, (int)(fontSize * 0.8)), Brushes.Black, rect.Location);
+				}
+			}
+
+
 		}
 	}
 }

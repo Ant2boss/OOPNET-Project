@@ -84,6 +84,8 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\LocalPlayerView.cs" />
+    <Compile Include="Models\PlayerGoalView.cs" />
+    <Compile Include="Models\PlayerYellowCardView.cs" />
     <Compile Include="PlayerRankings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,6 +100,9 @@
     <Compile Include="UserControls\PlayerUC.Designer.cs">
       <DependentUpon>PlayerUC.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Dialogs\ProgressDialog.en.resx">
+      <DependentUpon>ProgressDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\ProgressDialog.resx">
       <DependentUpon>ProgressDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -112,6 +117,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlayerRankings.en.resx">
+      <DependentUpon>PlayerRankings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PlayerRankings.resx">
       <DependentUpon>PlayerRankings.cs</DependentUpon>

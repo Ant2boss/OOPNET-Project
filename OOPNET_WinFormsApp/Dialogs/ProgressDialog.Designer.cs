@@ -29,37 +29,30 @@ namespace OOPNET_WinFormsApp.Dialogs
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProgressDialog));
 			this.label1 = new System.Windows.Forms.Label();
 			this.pbProgress = new System.Windows.Forms.ProgressBar();
 			this.SuspendLayout();
 			// 
 			// label1
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-			this.label1.Location = new System.Drawing.Point(12, 21);
+			resources.ApplyResources(this.label1, "label1");
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(83, 20);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "Učitavanje";
+			this.label1.UseWaitCursor = true;
 			// 
 			// pbProgress
 			// 
-			this.pbProgress.Location = new System.Drawing.Point(16, 59);
+			resources.ApplyResources(this.pbProgress, "pbProgress");
 			this.pbProgress.Name = "pbProgress";
-			this.pbProgress.Size = new System.Drawing.Size(309, 23);
-			this.pbProgress.TabIndex = 1;
+			this.pbProgress.UseWaitCursor = true;
 			// 
 			// ProgressDialog
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(337, 94);
 			this.Controls.Add(this.pbProgress);
 			this.Controls.Add(this.label1);
 			this.Name = "ProgressDialog";
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "ProgressDialog";
 			this.UseWaitCursor = true;
 			this.ResumeLayout(false);
 			this.PerformLayout();

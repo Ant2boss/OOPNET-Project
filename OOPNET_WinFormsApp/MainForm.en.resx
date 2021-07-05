@@ -148,8 +148,14 @@
   <data name="postavkeToolStripMenuItem.Text" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="tsmbtnSettings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>116, 22</value>
+  </data>
   <data name="tsmbtnSettings.Text" xml:space="preserve">
     <value>Settings</value>
+  </data>
+  <data name="btnRankings.Text" xml:space="preserve">
+    <value>Show rankings</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Start form</value>

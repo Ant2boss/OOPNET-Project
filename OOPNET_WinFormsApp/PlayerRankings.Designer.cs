@@ -29,34 +29,31 @@ namespace OOPNET_WinFormsApp
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.flpGoalCount = new System.Windows.Forms.FlowLayoutPanel();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PlayerRankings));
 			this.label1 = new System.Windows.Forms.Label();
 			this.bgLoader = new System.ComponentModel.BackgroundWorker();
 			this.label2 = new System.Windows.Forms.Label();
-			this.flpYellowCards = new System.Windows.Forms.FlowLayoutPanel();
+			this.dgvGoalTable = new System.Windows.Forms.DataGridView();
+			this.dgvYellowCardTable = new System.Windows.Forms.DataGridView();
+			this.dgvViewerTable = new System.Windows.Forms.DataGridView();
+			this.label3 = new System.Windows.Forms.Label();
+			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.printDialog = new System.Windows.Forms.PrintDialog();
+			this.printDocument = new System.Drawing.Printing.PrintDocument();
+			((System.ComponentModel.ISupportInitialize)(this.dgvGoalTable)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.dgvYellowCardTable)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.dgvViewerTable)).BeginInit();
+			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// flpGoalCount
-			// 
-			this.flpGoalCount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-			this.flpGoalCount.AutoScroll = true;
-			this.flpGoalCount.BackColor = System.Drawing.Color.White;
-			this.flpGoalCount.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-			this.flpGoalCount.Location = new System.Drawing.Point(12, 29);
-			this.flpGoalCount.Name = "flpGoalCount";
-			this.flpGoalCount.Size = new System.Drawing.Size(227, 409);
-			this.flpGoalCount.TabIndex = 0;
-			this.flpGoalCount.WrapContents = false;
 			// 
 			// label1
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(13, 13);
+			resources.ApplyResources(this.label1, "label1");
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(60, 13);
-			this.label1.TabIndex = 1;
-			this.label1.Text = "Broj golova";
 			// 
 			// bgLoader
 			// 
@@ -67,49 +64,122 @@ namespace OOPNET_WinFormsApp
 			// 
 			// label2
 			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(288, 13);
+			resources.ApplyResources(this.label2, "label2");
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(83, 13);
-			this.label2.TabIndex = 3;
-			this.label2.Text = "Broj žutih karata";
 			// 
-			// flpYellowCards
+			// dgvGoalTable
 			// 
-			this.flpYellowCards.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-			this.flpYellowCards.AutoScroll = true;
-			this.flpYellowCards.BackColor = System.Drawing.Color.White;
-			this.flpYellowCards.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-			this.flpYellowCards.Location = new System.Drawing.Point(287, 29);
-			this.flpYellowCards.Name = "flpYellowCards";
-			this.flpYellowCards.Size = new System.Drawing.Size(227, 409);
-			this.flpYellowCards.TabIndex = 2;
-			this.flpYellowCards.WrapContents = false;
+			this.dgvGoalTable.AllowUserToAddRows = false;
+			this.dgvGoalTable.AllowUserToDeleteRows = false;
+			resources.ApplyResources(this.dgvGoalTable, "dgvGoalTable");
+			this.dgvGoalTable.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+			this.dgvGoalTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dgvGoalTable.Name = "dgvGoalTable";
+			this.dgvGoalTable.ReadOnly = true;
+			// 
+			// dgvYellowCardTable
+			// 
+			this.dgvYellowCardTable.AllowUserToAddRows = false;
+			this.dgvYellowCardTable.AllowUserToDeleteRows = false;
+			resources.ApplyResources(this.dgvYellowCardTable, "dgvYellowCardTable");
+			this.dgvYellowCardTable.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+			this.dgvYellowCardTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dgvYellowCardTable.Name = "dgvYellowCardTable";
+			this.dgvYellowCardTable.ReadOnly = true;
+			// 
+			// dgvViewerTable
+			// 
+			this.dgvViewerTable.AllowUserToAddRows = false;
+			this.dgvViewerTable.AllowUserToDeleteRows = false;
+			resources.ApplyResources(this.dgvViewerTable, "dgvViewerTable");
+			this.dgvViewerTable.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+			this.dgvViewerTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dgvViewerTable.Name = "dgvViewerTable";
+			this.dgvViewerTable.ReadOnly = true;
+			// 
+			// label3
+			// 
+			resources.ApplyResources(this.label3, "label3");
+			this.label3.Name = "label3";
+			// 
+			// menuStrip1
+			// 
+			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+			resources.ApplyResources(this.menuStrip1, "menuStrip1");
+			this.menuStrip1.Name = "menuStrip1";
+			// 
+			// fileToolStripMenuItem
+			// 
+			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.printToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.closeToolStripMenuItem});
+			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+			resources.ApplyResources(this.fileToolStripMenuItem, "fileToolStripMenuItem");
+			// 
+			// printToolStripMenuItem
+			// 
+			this.printToolStripMenuItem.Name = "printToolStripMenuItem";
+			resources.ApplyResources(this.printToolStripMenuItem, "printToolStripMenuItem");
+			this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
+			// 
+			// closeToolStripMenuItem
+			// 
+			this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+			resources.ApplyResources(this.closeToolStripMenuItem, "closeToolStripMenuItem");
+			this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
+			// 
+			// printDialog
+			// 
+			this.printDialog.UseEXDialog = true;
+			// 
+			// printDocument
+			// 
+			this.printDocument.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument_PrintPage);
 			// 
 			// PlayerRankings
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(800, 450);
+			this.Controls.Add(this.label3);
+			this.Controls.Add(this.dgvViewerTable);
+			this.Controls.Add(this.dgvYellowCardTable);
+			this.Controls.Add(this.dgvGoalTable);
 			this.Controls.Add(this.label2);
-			this.Controls.Add(this.flpYellowCards);
 			this.Controls.Add(this.label1);
-			this.Controls.Add(this.flpGoalCount);
+			this.Controls.Add(this.menuStrip1);
+			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "PlayerRankings";
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "PlayerRankings";
+			((System.ComponentModel.ISupportInitialize)(this.dgvGoalTable)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.dgvYellowCardTable)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.dgvViewerTable)).EndInit();
+			this.menuStrip1.ResumeLayout(false);
+			this.menuStrip1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
 		}
 
 		#endregion
-
-		private System.Windows.Forms.FlowLayoutPanel flpGoalCount;
 		private System.Windows.Forms.Label label1;
 		private System.ComponentModel.BackgroundWorker bgLoader;
 		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.FlowLayoutPanel flpYellowCards;
+		private System.Windows.Forms.DataGridView dgvGoalTable;
+		private System.Windows.Forms.DataGridView dgvYellowCardTable;
+		private System.Windows.Forms.DataGridView dgvViewerTable;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.MenuStrip menuStrip1;
+		private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
+		private System.Windows.Forms.PrintDialog printDialog;
+		private System.Drawing.Printing.PrintDocument printDocument;
 	}
 }

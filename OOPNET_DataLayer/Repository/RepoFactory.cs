@@ -52,6 +52,7 @@ namespace OOPNET_DataLayer.Repository
 		{
 			return new intPlayerRankingsRepo(FifaCode);
 		}
+		public static IMatchesVisitorRankingsRepo GetVisitorRankingsRepo(string FifaCode) => new intVisitorRankingsRepo(FifaCode);
 
 		private static CupType _GetCupType() => (IS_FEMALE_CUP) ? (CupType.FemaleCup) : (CupType.MaleCup);
 	}
