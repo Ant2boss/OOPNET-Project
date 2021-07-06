@@ -11,11 +11,24 @@ using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace OOPNET_WinFormsApp
 {
+	internal delegate string TableStringHandler<T>(T Data);
+	internal delegate Bitmap TableBitmapHandler<T>(T Data);
+
+	internal struct TableColumnsDescriptor<T>
+	{
+		public string ColumnName { get; set; }
+		public bool IsImage { get; set; }
+
+		public TableStringHandler<T> StringHandler { get; set; }
+		public TableBitmapHandler<T> ImageHandler { get; set; }
+	}
+
 	public partial class PlayerRankings : Form
 	{
 		public PlayerRankings(string FifaCode, string FavoritePlayersPath, char FavoritePlayersDelim)
@@ -72,9 +85,9 @@ namespace OOPNET_WinFormsApp
 		{
 			string fifaCode = e.Argument.ToString();
 
-			this._RankingsRepo = RepoFactory.GetPlayerRankingsRepo(fifaCode);
-
 			(sender as BackgroundWorker).ReportProgress(50);
+
+			this._RankingsRepo = RepoFactory.GetPlayerRankingsRepo(fifaCode);
 
 			this._FavortitePlayers = this._LoadFavoritePlayers();
 
@@ -86,6 +99,8 @@ namespace OOPNET_WinFormsApp
 
 				this._PlayerStatistics.Add(ps);
 			}
+
+			(sender as BackgroundWorker).ReportProgress(75);
 		}
 
 		private void bgLoader_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -109,14 +124,53 @@ namespace OOPNET_WinFormsApp
 			List<PlayerStatistics> playerGoalCount = this._PlayerStatistics.ToList();
 			playerGoalCount.Sort((ps1, ps2) => -ps1.GoalCount.CompareTo(ps2.GoalCount));
 			this._PlayersGoals = PlayerGoalView.ListToYellowCardView(playerGoalCount).ToList();
-			this.dgvGoalTable.DataSource = this._PlayersGoals;
+
+			foreach (PlayerGoalView playerGoal in this._PlayersGoals)
+			{
+				this.dgvGoalTable.Rows.Add();
+				int rowIndex = this.dgvGoalTable.RowCount - 1;
+
+
+				Bitmap image = this._ExtractBitmapImage(playerGoal.PlayerImage, new Size(35, 35));
+
+				this.dgvGoalTable.Rows[rowIndex]
+					.SetValues(playerGoal.PlayerName, playerGoal.GoalCount, image);
+			}
+
 
 			playerGoalCount.Sort((ps1, ps2) => -ps1.YellowCardCount.CompareTo(ps2.YellowCardCount));
 			this._PlayersYellowCards = PlayerYellowCardView.ListToYellowCardView(playerGoalCount).ToList();
-			this.dgvYellowCardTable.DataSource = this._PlayersYellowCards;
+
+			foreach (PlayerYellowCardView playerYellow in this._PlayersYellowCards)
+			{
+				this.dgvYellowCardTable.Rows.Add();
+				int rowIndex = this.dgvYellowCardTable.RowCount - 1;
+
+				Bitmap image = this._ExtractBitmapImage(playerYellow.PlayerImage, new Size(35, 35));
+
+				this.dgvYellowCardTable.Rows[rowIndex]
+					.SetValues(playerYellow.PlayerName, playerYellow.YellowCardCount, image);
+			}
+
 
 			this._MatchStatistics = RepoFactory.GetVisitorRankingsRepo(this._FifaCode).GetMatchStatistics();
 			this.dgvViewerTable.DataSource = this._MatchStatistics;
+		}
+
+		private Bitmap _ExtractBitmapImage(string imagePath, Size imgSize)
+		{
+			Bitmap image = null;
+
+			if (string.IsNullOrEmpty(imagePath))
+			{
+				image = new Bitmap(OOPNET_WinFormsApp.Properties.Resources.noimage, imgSize);
+			}
+			else
+			{
+				image = new Bitmap(new Bitmap(imagePath), imgSize);
+			}
+
+			return image;
 		}
 
 		private void printToolStripMenuItem_Click(object sender, EventArgs e)
@@ -144,52 +198,77 @@ namespace OOPNET_WinFormsApp
 			{
 			case 0:
 				this._DrawTableFor(e, this._PlayersGoals,
-					new List<string>
-					{
-					"PlayerName",
-					"GoalCount",
-					"PlayerImage",
-					},
-					new List<Func<PlayerGoalView, string>>
-					{
-					(player) => player.PlayerName,
-					(player) => player.GoalCount.ToString(),
-					(player) => player.PlayerImage,
-					});
+						new TableColumnsDescriptor<PlayerGoalView>
+						{ 
+							ColumnName = "Player name",
+							IsImage = false,
+							StringHandler = (player) => player.PlayerName
+						},
+						new TableColumnsDescriptor<PlayerGoalView>
+						{
+							ColumnName = "Goal count",
+							IsImage = false,
+							StringHandler = (player) => player.GoalCount.ToString()
+						},
+						new TableColumnsDescriptor<PlayerGoalView>
+						{
+							ColumnName = "Player image",
+							IsImage = true,
+							ImageHandler = (player) => this._ExtractBitmapImage(player.PlayerImage, new Size(16, 16))
+						}
+					);
 				e.HasMorePages = true;
 				break;
 			case 1:
 				this._DrawTableFor(e, this._PlayersYellowCards,
-					new List<string>
-					{
-					"PlayerName",
-					"Yellow cards",
-					"PlayerImage",
-					},
-					new List<Func<PlayerYellowCardView, string>>
-					{
-					(player) => player.PlayerName,
-					(player) => player.YellowCardCount.ToString(),
-					(player) => player.PlayerImage,
-					});
+						new TableColumnsDescriptor<PlayerYellowCardView>
+						{
+							ColumnName = "Player name",
+							IsImage = false,
+							StringHandler = (player) => player.PlayerName
+						},
+						new TableColumnsDescriptor<PlayerYellowCardView>
+						{
+							ColumnName = "Goal count",
+							IsImage = false,
+							StringHandler = (player) => player.YellowCardCount.ToString()
+						},
+						new TableColumnsDescriptor<PlayerYellowCardView>
+						{
+							ColumnName = "Player image",
+							IsImage = true,
+							ImageHandler = (player) => this._ExtractBitmapImage(player.PlayerImage, new Size(16, 16))
+						}
+					);
 				e.HasMorePages = true;
 				break;
 			case 2:
-				this._DrawTableFor(e, this._MatchStatistics,
-					new List<string>
-					{
-					"Location",
-					"Visitior count",
-					"Home team",
-					"Away team",
-					},
-					new List<Func<MatchStatistics, string>>
-					{
-					(match) => match.Location,
-					(match) => match.VisitorCount.ToString(),
-					(match) => match.HomeTeam,
-					(match) => match.AwayTeam,
-					});
+				this._DrawTableFor(e, this._MatchStatistics, 
+						new TableColumnsDescriptor<MatchStatistics>
+						{ 
+							ColumnName = "Location",
+							IsImage = false,
+							StringHandler = (match) => match.Location
+						},
+						new TableColumnsDescriptor<MatchStatistics>
+						{ 
+							ColumnName = "Visitor count",
+							IsImage = false,
+							StringHandler = (match) => match.VisitorCount.ToString()
+						},
+						new TableColumnsDescriptor<MatchStatistics>
+						{ 
+							ColumnName = "Home team",
+							IsImage = false,
+							StringHandler = (match) => match.HomeTeam
+						},
+						new TableColumnsDescriptor<MatchStatistics>
+						{ 
+							ColumnName = "Away team",
+							IsImage = false,
+							StringHandler = (match) => match.AwayTeam
+						}
+					);
 				break;
 			default:
 					e.HasMorePages = false;
@@ -202,9 +281,9 @@ namespace OOPNET_WinFormsApp
 
 		}
 
-		private void _DrawTableFor<T>(PrintPageEventArgs pageArgs, IList<T> tableContent, IList<string> tableColumns, IList<Func<T, string>> tableData)
+		private void _DrawTableFor<T>(PrintPageEventArgs pageArgs, IList<T> tableContent, params TableColumnsDescriptor<T>[] tableColumns)
 		{
-			int columnCount = tableColumns.Count;
+			int columnCount = tableColumns.Length;
 			int rowCount = tableContent.Count;
 
 			int columnWidth = pageArgs.MarginBounds.Width / columnCount;
@@ -219,7 +298,7 @@ namespace OOPNET_WinFormsApp
 			Graphics g = pageArgs.Graphics;
 			Rectangle rect = new Rectangle(0, 0, columnWidth, columnHeight);
 
-			for (int i = 0; i < tableColumns.Count; ++i)
+			for (int i = 0; i < tableColumns.Length; ++i)
 			{
 				rect.Location = new Point(pageArgs.MarginBounds.Left + columnWidth * i, pageArgs.MarginBounds.Top);
 
@@ -227,13 +306,13 @@ namespace OOPNET_WinFormsApp
 				g.DrawRectangle(Pens.Black, rect);
 
 				rect.Location = new Point(rect.Location.X + stringLeftPadding, rect.Location.Y + stringTopPadding);
-				g.DrawString(tableColumns[i], new Font(fontName, fontSize), Brushes.Black, rect.Location);
+				g.DrawString(tableColumns[i].ColumnName, new Font(fontName, fontSize), Brushes.Black, rect.Location);
 
 			}
 
 			for (int row = 0; row < tableContent.Count; ++row)
 			{
-				for (int col = 0; col < tableColumns.Count; ++col)
+				for (int col = 0; col < tableColumns.Length; ++col)
 				{
 					rect.Location = new Point(
 						pageArgs.MarginBounds.Left + columnWidth * col,
@@ -247,7 +326,14 @@ namespace OOPNET_WinFormsApp
 					g.DrawRectangle(Pens.Black, rect);
 
 					rect.Location = new Point(rect.Location.X + stringLeftPadding, rect.Location.Y + stringTopPadding);
-					g.DrawString(tableData[col]?.Invoke(tableContent[row]), new Font(fontName, (int)(fontSize * 0.8)), Brushes.Black, rect.Location);
+					if (tableColumns[col].IsImage)
+					{
+						g.DrawImage(tableColumns[col].ImageHandler?.Invoke(tableContent[row]), rect.Location);
+					}
+					else
+					{ 
+						g.DrawString(tableColumns[col].StringHandler?.Invoke(tableContent[row]), new Font(fontName, (int)(fontSize * 0.8)), Brushes.Black, rect.Location);
+					}
 				}
 			}
 

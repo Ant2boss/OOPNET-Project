@@ -44,6 +44,12 @@ namespace OOPNET_WinFormsApp
 			this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.printDialog = new System.Windows.Forms.PrintDialog();
 			this.printDocument = new System.Drawing.Printing.PrintDocument();
+			this.PlayerName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.GoalCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.PlayerImage = new System.Windows.Forms.DataGridViewImageColumn();
+			this.YellowPlayerName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.YellowYellowCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.YellowPlayerImage = new System.Windows.Forms.DataGridViewImageColumn();
 			((System.ComponentModel.ISupportInitialize)(this.dgvGoalTable)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dgvYellowCardTable)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dgvViewerTable)).BeginInit();
@@ -69,29 +75,37 @@ namespace OOPNET_WinFormsApp
 			// 
 			// dgvGoalTable
 			// 
-			resources.ApplyResources(this.dgvGoalTable, "dgvGoalTable");
 			this.dgvGoalTable.AllowUserToAddRows = false;
 			this.dgvGoalTable.AllowUserToDeleteRows = false;
+			resources.ApplyResources(this.dgvGoalTable, "dgvGoalTable");
 			this.dgvGoalTable.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dgvGoalTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dgvGoalTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.PlayerName,
+            this.GoalCount,
+            this.PlayerImage});
 			this.dgvGoalTable.Name = "dgvGoalTable";
 			this.dgvGoalTable.ReadOnly = true;
 			// 
 			// dgvYellowCardTable
 			// 
-			resources.ApplyResources(this.dgvYellowCardTable, "dgvYellowCardTable");
 			this.dgvYellowCardTable.AllowUserToAddRows = false;
 			this.dgvYellowCardTable.AllowUserToDeleteRows = false;
+			resources.ApplyResources(this.dgvYellowCardTable, "dgvYellowCardTable");
 			this.dgvYellowCardTable.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dgvYellowCardTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dgvYellowCardTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.YellowPlayerName,
+            this.YellowYellowCount,
+            this.YellowPlayerImage});
 			this.dgvYellowCardTable.Name = "dgvYellowCardTable";
 			this.dgvYellowCardTable.ReadOnly = true;
 			// 
 			// dgvViewerTable
 			// 
-			resources.ApplyResources(this.dgvViewerTable, "dgvViewerTable");
 			this.dgvViewerTable.AllowUserToAddRows = false;
 			this.dgvViewerTable.AllowUserToDeleteRows = false;
+			resources.ApplyResources(this.dgvViewerTable, "dgvViewerTable");
 			this.dgvViewerTable.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dgvViewerTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dgvViewerTable.Name = "dgvViewerTable";
@@ -104,35 +118,35 @@ namespace OOPNET_WinFormsApp
 			// 
 			// menuStrip1
 			// 
-			resources.ApplyResources(this.menuStrip1, "menuStrip1");
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem});
+			resources.ApplyResources(this.menuStrip1, "menuStrip1");
 			this.menuStrip1.Name = "menuStrip1";
 			// 
 			// fileToolStripMenuItem
 			// 
-			resources.ApplyResources(this.fileToolStripMenuItem, "fileToolStripMenuItem");
 			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.printToolStripMenuItem,
             this.toolStripSeparator1,
             this.closeToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+			resources.ApplyResources(this.fileToolStripMenuItem, "fileToolStripMenuItem");
 			// 
 			// printToolStripMenuItem
 			// 
-			resources.ApplyResources(this.printToolStripMenuItem, "printToolStripMenuItem");
 			this.printToolStripMenuItem.Name = "printToolStripMenuItem";
+			resources.ApplyResources(this.printToolStripMenuItem, "printToolStripMenuItem");
 			this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 
-			resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
 			// 
 			// closeToolStripMenuItem
 			// 
-			resources.ApplyResources(this.closeToolStripMenuItem, "closeToolStripMenuItem");
 			this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+			resources.ApplyResources(this.closeToolStripMenuItem, "closeToolStripMenuItem");
 			this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
 			// 
 			// printDialog
@@ -142,6 +156,42 @@ namespace OOPNET_WinFormsApp
 			// printDocument
 			// 
 			this.printDocument.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument_PrintPage);
+			// 
+			// PlayerName
+			// 
+			resources.ApplyResources(this.PlayerName, "PlayerName");
+			this.PlayerName.Name = "PlayerName";
+			this.PlayerName.ReadOnly = true;
+			// 
+			// GoalCount
+			// 
+			resources.ApplyResources(this.GoalCount, "GoalCount");
+			this.GoalCount.Name = "GoalCount";
+			this.GoalCount.ReadOnly = true;
+			// 
+			// PlayerImage
+			// 
+			resources.ApplyResources(this.PlayerImage, "PlayerImage");
+			this.PlayerImage.Name = "PlayerImage";
+			this.PlayerImage.ReadOnly = true;
+			// 
+			// YellowPlayerName
+			// 
+			resources.ApplyResources(this.YellowPlayerName, "YellowPlayerName");
+			this.YellowPlayerName.Name = "YellowPlayerName";
+			this.YellowPlayerName.ReadOnly = true;
+			// 
+			// YellowYellowCount
+			// 
+			resources.ApplyResources(this.YellowYellowCount, "YellowYellowCount");
+			this.YellowYellowCount.Name = "YellowYellowCount";
+			this.YellowYellowCount.ReadOnly = true;
+			// 
+			// YellowPlayerImage
+			// 
+			resources.ApplyResources(this.YellowPlayerImage, "YellowPlayerImage");
+			this.YellowPlayerImage.Name = "YellowPlayerImage";
+			this.YellowPlayerImage.ReadOnly = true;
 			// 
 			// PlayerRankings
 			// 
@@ -181,5 +231,11 @@ namespace OOPNET_WinFormsApp
 		private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
 		private System.Windows.Forms.PrintDialog printDialog;
 		private System.Drawing.Printing.PrintDocument printDocument;
+		private System.Windows.Forms.DataGridViewTextBoxColumn PlayerName;
+		private System.Windows.Forms.DataGridViewTextBoxColumn GoalCount;
+		private System.Windows.Forms.DataGridViewImageColumn PlayerImage;
+		private System.Windows.Forms.DataGridViewTextBoxColumn YellowPlayerName;
+		private System.Windows.Forms.DataGridViewTextBoxColumn YellowYellowCount;
+		private System.Windows.Forms.DataGridViewImageColumn YellowPlayerImage;
 	}
 }

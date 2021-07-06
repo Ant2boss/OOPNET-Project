@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configs\ConfigFilePaths.cs" />
     <Compile Include="Configs\GlobalConfig.cs" />
     <Compile Include="Models\Converters\Converter.cs" />
     <Compile Include="Models\Match.cs" />
