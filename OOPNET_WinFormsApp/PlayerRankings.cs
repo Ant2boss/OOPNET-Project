@@ -276,8 +276,6 @@ namespace OOPNET_WinFormsApp
 			}
 
 			this._PageNumber++;
-			//this._DrawTableFor(graphics, this._PlayersGoals, "PlayerName", "PlayerImage", "YellowCardCount");
-			//this._DrawTableFor(graphics, this._PlayersGoals, "Location", "VisitorCount", "HomeTeam", "AwayTeam");
 
 		}
 

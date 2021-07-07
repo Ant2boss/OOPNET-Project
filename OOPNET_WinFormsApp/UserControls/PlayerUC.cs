@@ -1,4 +1,5 @@
-﻿using OOPNET_DataLayer.Models;
+﻿using OOPNET_DataLayer.Configs;
+using OOPNET_DataLayer.Models;
 using OOPNET_WinFormsApp.Models;
 using System;
 using System.Collections.Generic;
@@ -57,11 +58,18 @@ namespace OOPNET_WinFormsApp.UserControls
 		{
 			OpenFileDialog fileDialog = new OpenFileDialog();
 
+			fileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;*.tif;";
+
 			if (fileDialog.ShowDialog() == DialogResult.OK)
 			{
-				string copyLocation = $"./LocalRepo/Images/{Guid.NewGuid()}.{fileDialog.FileName.Substring(fileDialog.FileName.LastIndexOf('.') + 1)}";
+				string copyLocation = $"{ConfigFilePaths.LOCAL_REPO_IMAGES_DIR}/{Guid.NewGuid()}.{fileDialog.FileName.Substring(fileDialog.FileName.LastIndexOf('.') + 1)}";
 
 				File.Copy(fileDialog.FileName, copyLocation);
+
+				if (File.Exists(this._Player.ImagePath))
+				{
+					File.Delete(this._Player.ImagePath);
+				}
 
 				this._Player.ImagePath = copyLocation;
 

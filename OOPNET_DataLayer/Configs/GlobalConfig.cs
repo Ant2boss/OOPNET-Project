@@ -9,7 +9,7 @@ namespace OOPNET_DataLayer.Configs
 {
 	public static class GlobalConfig
 	{
-		public const string CONFIG_PATH = "./LocalRepo/GlobalConfig.txt";
+		public static readonly string CONFIG_PATH = ConfigFilePaths.LOCAL_REPO_GLOBAL_CONF_PATH;
 
 		public const string CONFK_CULTURE = "Culture";
 		public const string CONFK_USE_WEB = "UseWeb";

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using OOPNET_DataLayer.Configs;
 using OOPNET_DataLayer.Models;
 using System;
 using System.Collections.Generic;
@@ -11,11 +12,11 @@ namespace OOPNET_DataLayer.Repository.RepoInternals
 {
 	internal class intLocalTeamsRepo : ITeamsRepo
 	{
-		private const string LOCAL_JSON_MALE_TEAMS_PATH = "LocalRepo/worldcup.sfg.io/men/teams.json";
-		private const string LOCAL_JSON_MALE_TEAMS_RESULTS_PATH = "LocalRepo/worldcup.sfg.io/men/results.json";
+		private static readonly string LOCAL_JSON_MALE_TEAMS_PATH = $"{ConfigFilePaths.LOCAL_REPO_JSON_DIR}/men/teams.json";
+		private static readonly string LOCAL_JSON_MALE_TEAMS_RESULTS_PATH = $"{ConfigFilePaths.LOCAL_REPO_JSON_DIR}/men/results.json";
 		
-		private const string LOCAL_JSON_FEMALE_TEAMS_PATH = "LocalRepo/worldcup.sfg.io/women/teams.json";
-		private const string LOCAL_JSON_FEMALE_TEAMS_RESULTS_PATH = "LocalRepo/worldcup.sfg.io/women/results.json";
+		private static readonly string LOCAL_JSON_FEMALE_TEAMS_PATH = $"{ConfigFilePaths.LOCAL_REPO_JSON_DIR}/women/teams.json";
+		private static readonly string LOCAL_JSON_FEMALE_TEAMS_RESULTS_PATH = $"{ConfigFilePaths.LOCAL_REPO_JSON_DIR}/women/results.json";
 
 		public IList<Team> GetAllTeams()
 		{

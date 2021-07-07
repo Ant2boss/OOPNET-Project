@@ -39,15 +39,15 @@ namespace OOPNET_WinFormsApp
 			this.CenterToScreen();
 		}
 
-		private const string CONFIG_FILE_PATH = GlobalConfig.CONFIG_PATH;
-		private const string USER_CONFIG_FILE_PATH = LocalConfig.LOCAL_CONFIG_PATH;
+		private readonly string CONFIG_FILE_PATH = GlobalConfig.CONFIG_PATH;
+		private readonly string USER_CONFIG_FILE_PATH = LocalConfig.LOCAL_CONFIG_PATH;
 
 		private const string CONFK_CULTURE = GlobalConfig.CONFK_CULTURE;
 		private const string CONFK_CUP_TYPE = GlobalConfig.CONFK_CUP_TYPE;
 
 		private const string CONFK_FAVORITE = LocalConfig.CONFK_FAVORITE_REPRESENT;
 
-		private const string FAVORITE_PLAYERS_PATH = "./LocalRepo/FavoritePlayers.txt";
+		private readonly string FAVORITE_PLAYERS_PATH = $"{ConfigFilePaths.LOCAL_REPO_DIR}/FavoritePlayers.txt";
 		private const char FAVORITE_PLAYERS_DELIM = '|';
 
 		private ISet<LocalPlayerView> _Players;

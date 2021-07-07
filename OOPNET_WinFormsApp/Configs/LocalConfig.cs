@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OOPNET_DataLayer.Configs;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace OOPNET_WinFormsApp.Configs
 {
 	public static class LocalConfig
 	{
-		public const string LOCAL_CONFIG_PATH = "./LocalRepo/LocalConfig.txt";
+		public static readonly string LOCAL_CONFIG_PATH = ConfigFilePaths.LOCAL_REPO_LOCAL_CONF_PATH;
 
 		public const string CONFK_FAVORITE_REPRESENT = "FavoriteRepresentation";
 
