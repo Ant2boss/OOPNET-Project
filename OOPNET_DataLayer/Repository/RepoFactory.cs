@@ -16,14 +16,6 @@ namespace OOPNET_DataLayer.Repository
 		private static readonly bool IS_ONLINE;
 		private static readonly bool IS_FEMALE_CUP;
 
-		static RepoFactory()
-		{
-			IDictionary<string, string> config = ConfigurationParser.ParseConfigFile(GlobalConfig.CONFIG_PATH);
-
-			IS_ONLINE = bool.Parse(config[GlobalConfig.CONFK_USE_WEB]);
-			IS_FEMALE_CUP = config[GlobalConfig.CONFK_CUP_TYPE].Equals(CupType.FemaleCup.ToString());
-		}
-
 		public static ITeamsRepo GetTeamsRepo()
 		{
 			if (IS_ONLINE)
@@ -48,12 +40,18 @@ namespace OOPNET_DataLayer.Repository
 			}
 		}
 
-		public static IPlayerRankingsRepo GetPlayerRankingsRepo(string FifaCode)
-		{
-			return new intPlayerRankingsRepo(FifaCode);
-		}
+		public static IPlayerRankingsRepo GetPlayerRankingsRepo(string FifaCode) => new intPlayerRankingsRepo(FifaCode);
+
 		public static IMatchesVisitorRankingsRepo GetVisitorRankingsRepo(string FifaCode) => new intVisitorRankingsRepo(FifaCode);
 
 		private static CupType _GetCupType() => (IS_FEMALE_CUP) ? (CupType.FemaleCup) : (CupType.MaleCup);
+
+		static RepoFactory()
+		{
+			IDictionary<string, string> config = ConfigurationParser.ParseConfigFile(GlobalConfig.CONFIG_PATH);
+
+			IS_ONLINE = bool.Parse(config[GlobalConfig.CONFK_USE_WEB]);
+			IS_FEMALE_CUP = config[GlobalConfig.CONFK_CUP_TYPE].Equals(CupType.FemaleCup.ToString());
+		}
 	}
 }

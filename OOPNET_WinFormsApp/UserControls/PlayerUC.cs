@@ -37,8 +37,6 @@ namespace OOPNET_WinFormsApp.UserControls
 			this._Player = Player;
 		}
 
-		LocalPlayerView _Player;
-
 		public void SetIsFavorite(bool isFavorite)
 		{
 			this.lbIsFavorite.Text = (isFavorite) ? ("*") : ("");
@@ -52,6 +50,15 @@ namespace OOPNET_WinFormsApp.UserControls
 		private void PlayerUC_MouseDown(object sender, MouseEventArgs e)
 		{
 			this.DoDragDrop(this._Player, DragDropEffects.Copy);
+		}
+
+		private void tsbtnAddToFavorites_Click(object sender, EventArgs e)
+		{
+			this.OnMoveToFavorites?.Invoke(this, this._Player);
+		}
+		private void tsbtnRemoveFromFavorites_Click(object sender, EventArgs e)
+		{
+			this.OnRemoveFromFavorites?.Invoke(this, this._Player);
 		}
 
 		private void btnEdit_Click(object sender, EventArgs e)
@@ -79,13 +86,8 @@ namespace OOPNET_WinFormsApp.UserControls
 			}
 		}
 
-		private void tsbtnAddToFavorites_Click(object sender, EventArgs e)
-		{
-			this.OnMoveToFavorites?.Invoke(this, this._Player);
-		}
-		private void tsbtnRemoveFromFavorites_Click(object sender, EventArgs e)
-		{
-			this.OnRemoveFromFavorites?.Invoke(this, this._Player);
-		}
+
+		LocalPlayerView _Player;
+
 	}
 }

@@ -50,8 +50,105 @@ namespace OOPNET_WinFormsApp
 		private readonly string FAVORITE_PLAYERS_PATH = $"{ConfigFilePaths.LOCAL_REPO_DIR}/FavoritePlayers.txt";
 		private const char FAVORITE_PLAYERS_DELIM = '|';
 
-		private ISet<LocalPlayerView> _Players;
-		private ISet<LocalPlayerView> _FavoritePlayers;
+		private void cbTeams_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			IDictionary<string, string> config = ConfigurationParser.ParseConfigFile(USER_CONFIG_FILE_PATH);
+			config[CONFK_FAVORITE] = (this.cbTeams.SelectedItem as Team).FifaCode;
+			ConfigurationParser.UpdateConfigFile(USER_CONFIG_FILE_PATH, config);
+
+			this._AsyncUpdateTeamPlayers(config[CONFK_FAVORITE]);
+		}
+
+		private void PlayerUC_OnMoveToFavorites(object sender, LocalPlayerView e)
+		{
+			this._AddFavoritePlayerToList(e);
+			this._FillPlayerUserControls();
+		}
+		private void PlayerUC_OnRemoveFromFavorites(object sender, LocalPlayerView e)
+		{
+			_RemoveFavoritePlayerFromList(e);
+			this._FillPlayerUserControls();
+		}
+		private void PlayerUC_OnPlayerImageUpdated(object sender, EventArgs e)
+		{
+			this._UpdateFile();
+		}
+
+		private void bgWorkerPlayerLoader_DoWork(object sender, DoWorkEventArgs e)
+		{
+			IMatchesRepo matchesRepo = RepoFactory.GetMatchesRepo();
+
+			Match firstMatchOfTeam = matchesRepo.GetMatchesOfCountry(e.Argument.ToString()).First();
+
+			if (firstMatchOfTeam.HomeTeam.Code == e.Argument.ToString())
+			{
+				this._Players = firstMatchOfTeam.HomeTeamStatistics.StartingEleven.Union(firstMatchOfTeam.HomeTeamStatistics.Substitutes)
+					.Select(el => new LocalPlayerView(el))
+					.ToHashSet();
+			}
+			else
+			{
+				this._Players = firstMatchOfTeam.AwayTeamStatistics.StartingEleven.Union(firstMatchOfTeam.AwayTeamStatistics.Substitutes)
+					.Select(el => new LocalPlayerView(el))
+					.ToHashSet();
+			}
+		}
+		private void bgWorkerPlayerLoader_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			this._FillPlayerUserControls();
+			this.tsProgressBar.Value = 100;
+			this.tslbProgressLabel.Text = "Done!";
+		}
+
+		private void flpFavoritePlayers_DragEnter(object sender, DragEventArgs e)
+		{
+			e.Effect = DragDropEffects.Copy;
+		}
+		private void flpFavoritePlayers_DragDrop(object sender, DragEventArgs e)
+		{
+			LocalPlayerView PlayerToAdd = e.Data.GetData(typeof(LocalPlayerView)) as LocalPlayerView;
+
+			this._AddFavoritePlayerToList(PlayerToAdd);
+			this._FillPlayerUserControls();
+		}
+
+		private void flpAllPlayers_DragEnter(object sender, DragEventArgs e)
+		{
+			e.Effect = DragDropEffects.Copy;
+		}
+		private void flpAllPlayers_DragDrop(object sender, DragEventArgs e)
+		{
+			LocalPlayerView PlayerToRemove = e.Data.GetData(typeof(LocalPlayerView)) as LocalPlayerView;
+
+			this._RemoveFavoritePlayerFromList(PlayerToRemove);
+			this._FillPlayerUserControls();
+		}
+
+		private void btnRankings_Click(object sender, EventArgs e)
+		{
+			IDictionary<string, string> config = ConfigurationParser.ParseConfigFile(USER_CONFIG_FILE_PATH);
+
+			new PlayerRankings(config[CONFK_FAVORITE], FAVORITE_PLAYERS_PATH, FAVORITE_PLAYERS_DELIM).Show();
+		}
+
+		private void tsmbtnSettings_Click(object sender, EventArgs e)
+		{
+			IDictionary<string, string> config = ConfigurationParser.ParseConfigFile(CONFIG_FILE_PATH);
+
+			if (this._GlobalConfigChooser(config))
+			{
+				MessageBox.Show("You must restrat the app for these changes to take effect!", "Success");
+				Application.Exit();
+			}
+		}
+		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			DialogResult confirmResult = MessageBox.Show("Realy?", "Exit", MessageBoxButtons.OKCancel);
+			if (confirmResult == DialogResult.OK)
+			{
+				Application.Exit();
+			}
+		}
 
 		private bool _InitSettings()
 		{
@@ -68,6 +165,52 @@ namespace OOPNET_WinFormsApp
 			this._FavoritePlayers = this._LoadFavoritePlayers();
 
 			return true;
+		}
+		private bool _InitCupTypeAndCulture()
+		{
+			try
+			{
+				//Try to open file
+				IDictionary<string, string> config = ConfigurationParser.ParseConfigFile(CONFIG_FILE_PATH);
+
+				//Check the two settings if they are empty
+				if (string.IsNullOrEmpty(config[CONFK_CULTURE]) || string.IsNullOrEmpty(config[CONFK_CUP_TYPE]))
+				{
+					//Get the information from the Chooser
+					return this._GlobalConfigChooser(config);
+				}
+
+				return true;
+			}
+			catch (Exception ex)
+			{
+				if (ex is FileNotFoundException || ex is KeyNotFoundException)
+				{
+					MessageBox.Show("Error reading config, creating new config file!", "Error");
+					GlobalConfig.CreateEmptyConfigFile();
+					LocalConfig.CreateEmptyConfigFile();
+					return this._InitCupTypeAndCulture();
+				}
+
+				throw;
+			}
+		}
+		private void _InitForm()
+		{
+			IList<Team> teams = RepoFactory.GetTeamsRepo().GetAllTeams();
+
+			teams.ToList().ForEach(t => this.cbTeams.Items.Add(t));
+
+			IDictionary<string, string> config = ConfigurationParser.ParseConfigFile(USER_CONFIG_FILE_PATH);
+
+			if (!string.IsNullOrEmpty(config[CONFK_FAVORITE]) && teams.FirstOrDefault(t => t.FifaCode == config[CONFK_FAVORITE]) != null)
+			{
+				string favTeamCode = config[CONFK_FAVORITE];
+
+				Team favoriteTeam = teams.First(t => t.FifaCode == favTeamCode);
+
+				this.cbTeams.SelectedItem = favoriteTeam;
+			}
 		}
 
 		private ISet<LocalPlayerView> _LoadFavoritePlayers()
@@ -88,96 +231,6 @@ namespace OOPNET_WinFormsApp
 
 			return Result;
 		}
-
-		private bool _InitCupTypeAndCulture()
-		{
-			try
-			{
-				//Try to open file
-				IDictionary<string, string> config = ConfigurationParser.ParseConfigFile(CONFIG_FILE_PATH);
-
-				//Check the two settings if they are empty
-				if (string.IsNullOrEmpty(config[CONFK_CULTURE]) || string.IsNullOrEmpty(config[CONFK_CUP_TYPE]))
-				{
-					//Get the information from the Chooser
-					return this._GlobalConfigChooser(config);
-				}
-
-				return true;
-			}
-			catch (Exception ex)
-			{
-				if (ex is FileNotFoundException || ex is KeyNotFoundException)
-				{ 
-					MessageBox.Show("Error reading config, creating new config file!", "Error");
-					GlobalConfig.CreateEmptyConfigFile();
-					LocalConfig.CreateEmptyConfigFile();
-					return this._InitCupTypeAndCulture();
-				}
-
-				throw;
-			}
-		}
-
-		private bool _GlobalConfigChooser(IDictionary<string, string> config)
-		{
-			CupChooser repChooser = new CupChooser();
-			if (repChooser.ShowDialog() == DialogResult.OK)
-			{
-				config[CONFK_CULTURE] = repChooser.GetCulture();
-				config[CONFK_CUP_TYPE] = repChooser.GetCupType();
-
-				//Update information
-				ConfigurationParser.UpdateConfigFile(CONFIG_FILE_PATH, config);
-
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-
-		private void _InitForm()
-		{
-			IList<Team> teams = RepoFactory.GetTeamsRepo().GetAllTeams();
-
-			teams.ToList().ForEach(t => this.cbTeams.Items.Add(t));
-
-			IDictionary<string, string> config = ConfigurationParser.ParseConfigFile(USER_CONFIG_FILE_PATH);
-
-			if (!string.IsNullOrEmpty(config[CONFK_FAVORITE]) && teams.FirstOrDefault(t => t.FifaCode == config[CONFK_FAVORITE]) != null)
-			{
-				string favTeamCode = config[CONFK_FAVORITE];
-
-				Team favoriteTeam = teams.First(t => t.FifaCode == favTeamCode);
-
-				this.cbTeams.SelectedItem = favoriteTeam;
-			}
-		}
-
-		private void cbTeams_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			IDictionary<string, string> config = ConfigurationParser.ParseConfigFile(USER_CONFIG_FILE_PATH);
-			config[CONFK_FAVORITE] = (this.cbTeams.SelectedItem as Team).FifaCode;
-			ConfigurationParser.UpdateConfigFile(USER_CONFIG_FILE_PATH, config);
-
-			this._AsyncUpdateTeamPlayers(config[CONFK_FAVORITE]);
-		}
-
-		private void _AsyncUpdateTeamPlayers(string FifaCode)
-		{
-			this.flpAllPlayers.Controls.Clear();
-
-			this.tsProgressBar.Value = 0;
-			this.tslbProgressLabel.Text = "Loading players...";
-
-			if (!this.bgWorkerPlayerLoader.IsBusy)
-			{ 
-				this.bgWorkerPlayerLoader.RunWorkerAsync(FifaCode);
-			}
-		}
-
 		private void _FillPlayerUserControls()
 		{
 			this.flpAllPlayers.Controls.Clear();
@@ -209,62 +262,29 @@ namespace OOPNET_WinFormsApp
 
 		}
 
-		private void PlayerUC_OnMoveToFavorites(object sender, LocalPlayerView e)
+		private void _AsyncUpdateTeamPlayers(string FifaCode)
 		{
-			this._AddFavoritePlayerToList(e);
-			this._FillPlayerUserControls();
-		}
+			this.flpAllPlayers.Controls.Clear();
 
-		private void PlayerUC_OnRemoveFromFavorites(object sender, LocalPlayerView e)
-		{
-			_RemoveFavoritePlayerFromList(e);
-			this._FillPlayerUserControls();
-		}
+			this.tsProgressBar.Value = 0;
+			this.tslbProgressLabel.Text = "Loading players...";
 
-		private void PlayerUC_OnPlayerImageUpdated(object sender, EventArgs e)
-		{
-			this._UpdateFile();
-		}
-
-		private void bgWorkerPlayerLoader_DoWork(object sender, DoWorkEventArgs e)
-		{
-			IMatchesRepo matchesRepo = RepoFactory.GetMatchesRepo();
-
-			Match firstMatchOfTeam = matchesRepo.GetMatchesOfCountry(e.Argument.ToString()).First();
-
-			if (firstMatchOfTeam.HomeTeam.Code == e.Argument.ToString())
-			{
-				this._Players = firstMatchOfTeam.HomeTeamStatistics.StartingEleven.Union(firstMatchOfTeam.HomeTeamStatistics.Substitutes)
-					.Select(el => new LocalPlayerView(el))
-					.ToHashSet();
-			}
-			else
-			{
-				this._Players = firstMatchOfTeam.AwayTeamStatistics.StartingEleven.Union(firstMatchOfTeam.AwayTeamStatistics.Substitutes)
-					.Select(el => new LocalPlayerView(el))
-					.ToHashSet();
+			if (!this.bgWorkerPlayerLoader.IsBusy)
+			{ 
+				this.bgWorkerPlayerLoader.RunWorkerAsync(FifaCode);
 			}
 		}
-
-		private void bgWorkerPlayerLoader_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		private void _UpdateFile()
 		{
-			this._FillPlayerUserControls();
-			this.tsProgressBar.Value = 100;
-			this.tslbProgressLabel.Text = "Done!";
-		}
+			IList<string> fileLines = new List<string>();
+			foreach (LocalPlayerView favPlayer in this._FavoritePlayers)
+			{
+				fileLines.Add(favPlayer.FormatForFileLine(FAVORITE_PLAYERS_DELIM));
+			}
 
-		private void flpFavoritePlayers_DragEnter(object sender, DragEventArgs e)
-		{
-			e.Effect = DragDropEffects.Copy;
+			File.WriteAllLines(FAVORITE_PLAYERS_PATH, fileLines);
 		}
-
-		private void flpFavoritePlayers_DragDrop(object sender, DragEventArgs e)
-		{
-			LocalPlayerView PlayerToAdd = e.Data.GetData(typeof (LocalPlayerView)) as LocalPlayerView;
-
-			this._AddFavoritePlayerToList(PlayerToAdd);
-			this._FillPlayerUserControls();
-		}
+		
 
 		private void _AddFavoritePlayerToList(LocalPlayerView playerToAdd)
 		{
@@ -272,7 +292,6 @@ namespace OOPNET_WinFormsApp
 
 			this._UpdateFile();
 		}
-
 		private void _RemoveFavoritePlayerFromList(LocalPlayerView e)
 		{
 			e.IsFavorite = false;
@@ -289,55 +308,26 @@ namespace OOPNET_WinFormsApp
 			this._UpdateFile();
 		}
 
-		private void _UpdateFile()
+		private bool _GlobalConfigChooser(IDictionary<string, string> config)
 		{
-			IList<string> fileLines = new List<string>();
-			foreach (LocalPlayerView favPlayer in this._FavoritePlayers)
+			CupChooser repChooser = new CupChooser();
+			if (repChooser.ShowDialog() == DialogResult.OK)
 			{
-				fileLines.Add(favPlayer.FormatForFileLine(FAVORITE_PLAYERS_DELIM));
+				config[CONFK_CULTURE] = repChooser.GetCulture();
+				config[CONFK_CUP_TYPE] = repChooser.GetCupType();
+
+				//Update information
+				ConfigurationParser.UpdateConfigFile(CONFIG_FILE_PATH, config);
+
+				return true;
 			}
-
-			File.WriteAllLines(FAVORITE_PLAYERS_PATH, fileLines);
-		}
-
-		private void flpAllPlayers_DragEnter(object sender, DragEventArgs e)
-		{
-			e.Effect = DragDropEffects.Copy;
-		}
-
-		private void flpAllPlayers_DragDrop(object sender, DragEventArgs e)
-		{
-			LocalPlayerView PlayerToRemove = e.Data.GetData(typeof(LocalPlayerView)) as LocalPlayerView;
-
-			this._RemoveFavoritePlayerFromList(PlayerToRemove);
-			this._FillPlayerUserControls();
-		}
-
-		private void tsmbtnSettings_Click(object sender, EventArgs e)
-		{
-			IDictionary<string, string> config = ConfigurationParser.ParseConfigFile(CONFIG_FILE_PATH);
-
-			if (this._GlobalConfigChooser(config))
-			{ 
-				MessageBox.Show("You must restrat the app for these changes to take effect!", "Success");
-				Application.Exit();
-			}
-		}
-
-		private void btnRankings_Click(object sender, EventArgs e)
-		{
-			IDictionary<string, string> config = ConfigurationParser.ParseConfigFile(USER_CONFIG_FILE_PATH);
-
-			new PlayerRankings(config[CONFK_FAVORITE], FAVORITE_PLAYERS_PATH, FAVORITE_PLAYERS_DELIM).Show();
-		}
-
-		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			DialogResult confirmResult = MessageBox.Show("Realy?", "Exit", MessageBoxButtons.OKCancel);
-			if (confirmResult == DialogResult.OK)
+			else
 			{
-				Application.Exit();
+				return false;
 			}
 		}
+
+		private ISet<LocalPlayerView> _Players;
+		private ISet<LocalPlayerView> _FavoritePlayers;
 	}
 }

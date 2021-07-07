@@ -41,45 +41,8 @@ namespace OOPNET_WinFormsApp
 			this._InitForm(FifaCode);
 		}
 
-		ISet<LocalPlayerView> _FavortitePlayers;
-		IList<PlayerStatistics> _PlayerStatistics;
-		IPlayerRankingsRepo _RankingsRepo;
-
-		ProgressDialog _ProgressDialog;
-
-		string _FifaCode;
-
 		private readonly string FAVORITE_PATH;
 		private readonly char FAVORITE_DELIM;
-
-		private void _InitForm(string FifaCode)
-		{
-			this._ProgressDialog = new ProgressDialog();
-
-			this._FifaCode = FifaCode;
-
-			this._LoadPlayers();
-		}
-
-		private void _LoadPlayers()
-		{
-			this.bgLoader.RunWorkerAsync(this._FifaCode);
-			this._ProgressDialog.ShowDialog();
-		}
-
-		private ISet<LocalPlayerView> _LoadFavoritePlayers()
-		{
-			ISet<LocalPlayerView> Result = new HashSet<LocalPlayerView>();
-
-			string[] fileLines = File.ReadAllLines(FAVORITE_PATH);
-
-			foreach (string line in fileLines)
-			{
-				Result.Add(LocalPlayerView.ParseFileLine(line, FAVORITE_DELIM));
-			}
-
-			return Result;
-		}
 
 		private void bgLoader_DoWork(object sender, DoWorkEventArgs e)
 		{
@@ -89,7 +52,7 @@ namespace OOPNET_WinFormsApp
 
 			this._RankingsRepo = RepoFactory.GetPlayerRankingsRepo(fifaCode);
 
-			this._FavortitePlayers = this._LoadFavoritePlayers();
+			this._FavortitePlayers = this._ParseFavoritePlayersFile();
 
 			this._PlayerStatistics = new List<PlayerStatistics>();
 
@@ -102,12 +65,10 @@ namespace OOPNET_WinFormsApp
 
 			(sender as BackgroundWorker).ReportProgress(75);
 		}
-
 		private void bgLoader_ProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
 			this._ProgressDialog.SetPorgress(e.ProgressPercentage);
 		}
-
 		private void bgLoader_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
 			this._FillForm();
@@ -115,10 +76,135 @@ namespace OOPNET_WinFormsApp
 			this._ProgressDialog.Close();
 		}
 
-		private IList<PlayerYellowCardView> _PlayersYellowCards;
-		private IList<PlayerGoalView> _PlayersGoals;
-		private IList<MatchStatistics> _MatchStatistics;
+		private void printToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (this.printDialog.ShowDialog() == DialogResult.OK)
+			{
+				this.printDocument.PrinterSettings = this.printDialog.PrinterSettings;
+				this._PageNumber = 0;
 
+				this.printDocument.Print();
+			}
+		}
+		private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			this.Dispose();
+		}
+
+		private void printDocument_PrintPage(object sender, PrintPageEventArgs e)
+		{
+			switch (this._PageNumber)
+			{
+				case 0:
+					this._DrawTableFor(e, this._PlayersGoals,
+							new TableColumnsDescriptor<PlayerGoalView>
+							{
+								ColumnName = "Player name",
+								IsImage = false,
+								StringHandler = (player) => player.PlayerName
+							},
+							new TableColumnsDescriptor<PlayerGoalView>
+							{
+								ColumnName = "Goal count",
+								IsImage = false,
+								StringHandler = (player) => player.GoalCount.ToString()
+							},
+							new TableColumnsDescriptor<PlayerGoalView>
+							{
+								ColumnName = "Player image",
+								IsImage = true,
+								ImageHandler = (player) => this._ExtractBitmapImage(player.PlayerImage, new Size(16, 16))
+							}
+						);
+					e.HasMorePages = true;
+					break;
+				case 1:
+					this._DrawTableFor(e, this._PlayersYellowCards,
+							new TableColumnsDescriptor<PlayerYellowCardView>
+							{
+								ColumnName = "Player name",
+								IsImage = false,
+								StringHandler = (player) => player.PlayerName
+							},
+							new TableColumnsDescriptor<PlayerYellowCardView>
+							{
+								ColumnName = "Goal count",
+								IsImage = false,
+								StringHandler = (player) => player.YellowCardCount.ToString()
+							},
+							new TableColumnsDescriptor<PlayerYellowCardView>
+							{
+								ColumnName = "Player image",
+								IsImage = true,
+								ImageHandler = (player) => this._ExtractBitmapImage(player.PlayerImage, new Size(16, 16))
+							}
+						);
+					e.HasMorePages = true;
+					break;
+				case 2:
+					this._DrawTableFor(e, this._MatchStatistics,
+							new TableColumnsDescriptor<MatchStatistics>
+							{
+								ColumnName = "Location",
+								IsImage = false,
+								StringHandler = (match) => match.Location
+							},
+							new TableColumnsDescriptor<MatchStatistics>
+							{
+								ColumnName = "Visitor count",
+								IsImage = false,
+								StringHandler = (match) => match.VisitorCount.ToString()
+							},
+							new TableColumnsDescriptor<MatchStatistics>
+							{
+								ColumnName = "Home team",
+								IsImage = false,
+								StringHandler = (match) => match.HomeTeam
+							},
+							new TableColumnsDescriptor<MatchStatistics>
+							{
+								ColumnName = "Away team",
+								IsImage = false,
+								StringHandler = (match) => match.AwayTeam
+							}
+						);
+					break;
+				default:
+					e.HasMorePages = false;
+					break;
+			}
+
+			this._PageNumber++;
+		}
+
+		private void _InitForm(string FifaCode)
+		{
+			this._ProgressDialog = new ProgressDialog();
+
+			this._FifaCode = FifaCode;
+
+			this._AsyncGetPlayers();
+		}
+
+		private void _AsyncGetPlayers()
+		{
+			this.bgLoader.RunWorkerAsync(this._FifaCode);
+			this._ProgressDialog.ShowDialog();
+		}
+		private ISet<LocalPlayerView> _ParseFavoritePlayersFile()
+		{
+			ISet<LocalPlayerView> Result = new HashSet<LocalPlayerView>();
+
+			string[] fileLines = File.ReadAllLines(FAVORITE_PATH);
+
+			foreach (string line in fileLines)
+			{
+				Result.Add(LocalPlayerView.ParseFileLine(line, FAVORITE_DELIM));
+			}
+
+			return Result;
+		}
+		
 		private void _FillForm()
 		{
 			List<PlayerStatistics> playerGoalCount = this._PlayerStatistics.ToList();
@@ -172,113 +258,7 @@ namespace OOPNET_WinFormsApp
 
 			return image;
 		}
-
-		private void printToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			if (this.printDialog.ShowDialog() == DialogResult.OK)
-			{ 
-				this.printDocument.PrinterSettings = this.printDialog.PrinterSettings;
-				this._PageNumber = 0;
-
-				this.printDocument.Print();
-			}
-
-		}
-
-		private void closeToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			this.Dispose();
-		}
-
-		int _PageNumber = 0;
-
-		private void printDocument_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
-		{
-			switch (this._PageNumber)
-			{
-			case 0:
-				this._DrawTableFor(e, this._PlayersGoals,
-						new TableColumnsDescriptor<PlayerGoalView>
-						{ 
-							ColumnName = "Player name",
-							IsImage = false,
-							StringHandler = (player) => player.PlayerName
-						},
-						new TableColumnsDescriptor<PlayerGoalView>
-						{
-							ColumnName = "Goal count",
-							IsImage = false,
-							StringHandler = (player) => player.GoalCount.ToString()
-						},
-						new TableColumnsDescriptor<PlayerGoalView>
-						{
-							ColumnName = "Player image",
-							IsImage = true,
-							ImageHandler = (player) => this._ExtractBitmapImage(player.PlayerImage, new Size(16, 16))
-						}
-					);
-				e.HasMorePages = true;
-				break;
-			case 1:
-				this._DrawTableFor(e, this._PlayersYellowCards,
-						new TableColumnsDescriptor<PlayerYellowCardView>
-						{
-							ColumnName = "Player name",
-							IsImage = false,
-							StringHandler = (player) => player.PlayerName
-						},
-						new TableColumnsDescriptor<PlayerYellowCardView>
-						{
-							ColumnName = "Goal count",
-							IsImage = false,
-							StringHandler = (player) => player.YellowCardCount.ToString()
-						},
-						new TableColumnsDescriptor<PlayerYellowCardView>
-						{
-							ColumnName = "Player image",
-							IsImage = true,
-							ImageHandler = (player) => this._ExtractBitmapImage(player.PlayerImage, new Size(16, 16))
-						}
-					);
-				e.HasMorePages = true;
-				break;
-			case 2:
-				this._DrawTableFor(e, this._MatchStatistics, 
-						new TableColumnsDescriptor<MatchStatistics>
-						{ 
-							ColumnName = "Location",
-							IsImage = false,
-							StringHandler = (match) => match.Location
-						},
-						new TableColumnsDescriptor<MatchStatistics>
-						{ 
-							ColumnName = "Visitor count",
-							IsImage = false,
-							StringHandler = (match) => match.VisitorCount.ToString()
-						},
-						new TableColumnsDescriptor<MatchStatistics>
-						{ 
-							ColumnName = "Home team",
-							IsImage = false,
-							StringHandler = (match) => match.HomeTeam
-						},
-						new TableColumnsDescriptor<MatchStatistics>
-						{ 
-							ColumnName = "Away team",
-							IsImage = false,
-							StringHandler = (match) => match.AwayTeam
-						}
-					);
-				break;
-			default:
-					e.HasMorePages = false;
-				break;
-			}
-
-			this._PageNumber++;
-
-		}
-
+		
 		private void _DrawTableFor<T>(PrintPageEventArgs pageArgs, IList<T> tableContent, params TableColumnsDescriptor<T>[] tableColumns)
 		{
 			int columnCount = tableColumns.Length;
@@ -337,5 +317,20 @@ namespace OOPNET_WinFormsApp
 
 
 		}
+
+		private ISet<LocalPlayerView> _FavortitePlayers;
+		private IList<PlayerStatistics> _PlayerStatistics;
+
+		private IList<PlayerYellowCardView> _PlayersYellowCards;
+		private IList<PlayerGoalView> _PlayersGoals;
+		private IList<MatchStatistics> _MatchStatistics;
+
+		private IPlayerRankingsRepo _RankingsRepo;
+
+		private ProgressDialog _ProgressDialog;
+
+		private string _FifaCode;
+
+		private int _PageNumber = 0;
 	}
 }

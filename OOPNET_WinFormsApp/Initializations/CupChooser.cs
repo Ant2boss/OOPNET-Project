@@ -20,20 +20,6 @@ namespace OOPNET_WinFormsApp.Initializations
 			this._InitForm();
 		}
 
-		private void _InitForm()
-		{
-			this.lsLanguages.Items.Clear();
-
-			this.lsLanguages.Items.Add("HR");
-			this.lsLanguages.Items.Add("EN");
-
-			this.lsLanguages.SelectedIndex = 0;
-
-			this.lsLanguages.DropDownStyle = ComboBoxStyle.DropDownList;
-
-			this.CenterToScreen();
-		}
-
 		public string GetCulture()
 		{
 			return this.lsLanguages.SelectedItem.ToString();
@@ -59,6 +45,20 @@ namespace OOPNET_WinFormsApp.Initializations
 			}
 
 			return base.ProcessCmdKey(ref msg, keyData);
+		}
+
+		private void _InitForm()
+		{
+			this.lsLanguages.Items.Clear();
+
+			this.lsLanguages.Items.Add("HR");
+			this.lsLanguages.Items.Add("EN");
+
+			this.lsLanguages.SelectedIndex = 0;
+
+			this.lsLanguages.DropDownStyle = ComboBoxStyle.DropDownList;
+
+			this.CenterToScreen();
 		}
 
 	}
