@@ -14,6 +14,7 @@ namespace OOPNET_DataLayer.Configs
 		public const string CONFK_CULTURE = "Culture";
 		public const string CONFK_USE_WEB = "UseWeb";
 		public const string CONFK_CUP_TYPE = "CupType";
+		public const string CONFK_RESOLUTION = "Resolution";
 
 		public static void CreateEmptyConfigFile()
 		{
@@ -22,9 +23,12 @@ namespace OOPNET_DataLayer.Configs
 			sb.AppendLine("--Culutre config--");
 			sb.AppendLine($"{CONFK_CULTURE}: \"\"");
 
-			sb.AppendLine("--Representation config--");
+			sb.AppendLine("--Cup config--");
 			sb.AppendLine($"{CONFK_USE_WEB}: \"true\"");
 			sb.AppendLine($"{CONFK_CUP_TYPE}: \"\"");
+
+			sb.AppendLine($"--Visuals config--");
+			sb.AppendLine($"{CONFK_RESOLUTION}: \"\"");
 
 			File.WriteAllText(CONFIG_PATH, sb.ToString());
 		}
