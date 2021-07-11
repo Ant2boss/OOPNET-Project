@@ -56,6 +56,97 @@
 		<Label x:Name="lbBigGame" Style="{StaticResource header}" />
 		<Label x:Name="lbGameScore" Style="{StaticResource header}" />
 
+		<Grid 
+			Background="Green"
+			Height="350"
+			Style="{StaticResource settings-group}"
+			Margin="50 0 50 30">
+
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+
+			<Rectangle 
+				Grid.ColumnSpan="2"
+				Stroke="White"
+				StrokeThickness="2"
+				Margin="10" />
+
+			<Ellipse 
+				Grid.ColumnSpan="2"
+				Fill="White"
+				Height="30"
+				Width="30"
+				/>
+
+			<Grid
+				Grid.Column="0"
+				x:Name="GridSelectedTeam">
+
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
+				
+				<StackPanel
+					Orientation="Vertical"
+					VerticalAlignment="Center"
+					Grid.Column="0"
+					x:Name="spSelectedGoalie" />
+				<StackPanel
+					Orientation="Vertical"
+					VerticalAlignment="Center"
+					Grid.Column="1"
+					x:Name="spSelectedDefender" />
+				<StackPanel
+					Orientation="Vertical"
+					VerticalAlignment="Center"
+					Grid.Column="2"
+					x:Name="spSelectedMidfield" />
+				<StackPanel
+					Orientation="Vertical"
+					VerticalAlignment="Center"
+					Grid.Column="3"
+					x:Name="spSelectedForward" />
+			</Grid>
+
+			<Grid
+				Grid.Column="1"
+				x:Name="GridOppositionTeam">
+
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
+
+				<StackPanel
+					Orientation="Vertical"
+					VerticalAlignment="Center"
+					Grid.Column="3"
+					x:Name="spOppositionGoalie" />
+				<StackPanel
+					Orientation="Vertical"
+					VerticalAlignment="Center"
+					Grid.Column="2"
+					x:Name="spOppositionDefender" />
+				<StackPanel
+					Orientation="Vertical"
+					VerticalAlignment="Center"
+					Grid.Column="1"
+					x:Name="spOppositionMidfield" />
+				<StackPanel
+					Orientation="Vertical"
+					VerticalAlignment="Center"
+					Grid.Column="0"
+					x:Name="spOppositionForward" />
+			</Grid>
+
+		</Grid>
 		
 	</StackPanel>
 </Window>

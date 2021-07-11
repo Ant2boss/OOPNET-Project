@@ -3,23 +3,15 @@ using OOPNET_DataLayer.Models;
 using OOPNET_DataLayer.Repository;
 using OOPNET_Utils.Configuration;
 using OOPNET_WPFApp.Dialogs;
+using OOPNET_WPFApp.UserControls;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace OOPNET_WPFApp
 {
@@ -197,6 +189,13 @@ namespace OOPNET_WPFApp
 				long OppTeamGoal = (this._Game.HomeTeam.Code == this._SelectedOpositionFifaCode) ? (this._Game.HomeTeam.Goals) : (this._Game.AwayTeam.Goals);
 
 				this.lbGameScore.Content = $"{favTeamGoal} : {OppTeamGoal}";
+
+				MatchTeamStatistics favTeam = (this._Game.HomeTeam.Code == this._SelectedFifaCode) ? (this._Game.HomeTeamStatistics) : (this._Game.AwayTeamStatistics);
+				MatchTeamStatistics oppTeam = (this._Game.HomeTeam.Code == this._SelectedOpositionFifaCode) ? (this._Game.HomeTeamStatistics) : (this._Game.AwayTeamStatistics);
+
+				this._HandlePlayersPannel(this.GridSelectedTeam, favTeam);
+				this._HandlePlayersPannel(this.GridOppositionTeam, oppTeam);
+
 			}
 			else
 			{
@@ -207,6 +206,36 @@ namespace OOPNET_WPFApp
 
 			this._HandleButton(this.btnFavTeam, this._SelectedFifaCode);
 			this._HandleButton(this.btnOppTeam, this._SelectedOpositionFifaCode);
+
+		}
+
+		private void _HandlePlayersPannel(Grid grid, MatchTeamStatistics teamStats)
+		{
+			IList<MatchPlayer> startingEleven = teamStats.StartingEleven;
+
+			for (int i = 0; i < 4; ++i)
+			{
+				(grid.Children[i] as StackPanel).Children.Clear();
+			}
+
+			foreach (MatchPlayer player in startingEleven)
+			{
+				switch (player.Position)
+				{
+					case "Goalie":
+						(grid.Children[0] as StackPanel).Children.Add(new PlayerUC(player, ConfigFilePaths.LOCAL_REPO_IMAGES_DIR + "/1f62df80-419c-47e4-8f11-77e87af47fbc.png"));
+						break;
+					case "Defender":
+						(grid.Children[1] as StackPanel).Children.Add(new PlayerUC(player));
+						break;
+					case "Midfield":
+						(grid.Children[2] as StackPanel).Children.Add(new PlayerUC(player));
+						break;
+					case "Forward":
+						(grid.Children[3] as StackPanel).Children.Add(new PlayerUC(player));
+						break;
+				}
+			}
 
 		}
 

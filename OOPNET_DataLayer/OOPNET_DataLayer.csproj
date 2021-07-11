@@ -52,6 +52,7 @@
     <Compile Include="Configs\ConfigKeys.cs" />
     <Compile Include="Configs\GlobalConfig.cs" />
     <Compile Include="Models\Converters\Converter.cs" />
+    <Compile Include="Models\FavoritePlayers\FavoritePlayer.cs" />
     <Compile Include="Models\Match.cs" />
     <Compile Include="Models\Converters\ParseStringConverter.cs" />
     <Compile Include="Models\MatchPlayer.cs" />
