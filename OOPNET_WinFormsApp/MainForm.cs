@@ -1,5 +1,6 @@
 ﻿using OOPNET_DataLayer.Configs;
 using OOPNET_DataLayer.Models;
+using OOPNET_DataLayer.Models.FavoritePlayers;
 using OOPNET_DataLayer.Repository;
 using OOPNET_DataLayer.Repository.RepoInternals;
 using OOPNET_Utils.Configuration;
@@ -59,12 +60,12 @@ namespace OOPNET_WinFormsApp
 			this._AsyncUpdateTeamPlayers(config[CONFK_FAVORITE]);
 		}
 
-		private void PlayerUC_OnMoveToFavorites(object sender, LocalPlayerView e)
+		private void PlayerUC_OnMoveToFavorites(object sender, FavoritePlayer e)
 		{
 			this._AddFavoritePlayerToList(e);
 			this._FillPlayerUserControls();
 		}
-		private void PlayerUC_OnRemoveFromFavorites(object sender, LocalPlayerView e)
+		private void PlayerUC_OnRemoveFromFavorites(object sender, FavoritePlayer e)
 		{
 			_RemoveFavoritePlayerFromList(e);
 			this._FillPlayerUserControls();
@@ -83,13 +84,13 @@ namespace OOPNET_WinFormsApp
 			if (firstMatchOfTeam.HomeTeam.Code == e.Argument.ToString())
 			{
 				this._Players = firstMatchOfTeam.HomeTeamStatistics.StartingEleven.Union(firstMatchOfTeam.HomeTeamStatistics.Substitutes)
-					.Select(el => new LocalPlayerView(el))
+					.Select(el => new FavoritePlayer(el))
 					.ToHashSet();
 			}
 			else
 			{
 				this._Players = firstMatchOfTeam.AwayTeamStatistics.StartingEleven.Union(firstMatchOfTeam.AwayTeamStatistics.Substitutes)
-					.Select(el => new LocalPlayerView(el))
+					.Select(el => new FavoritePlayer(el))
 					.ToHashSet();
 			}
 		}
@@ -106,7 +107,7 @@ namespace OOPNET_WinFormsApp
 		}
 		private void flpFavoritePlayers_DragDrop(object sender, DragEventArgs e)
 		{
-			LocalPlayerView PlayerToAdd = e.Data.GetData(typeof(LocalPlayerView)) as LocalPlayerView;
+			FavoritePlayer PlayerToAdd = e.Data.GetData(typeof(FavoritePlayer)) as FavoritePlayer;
 
 			this._AddFavoritePlayerToList(PlayerToAdd);
 			this._FillPlayerUserControls();
@@ -118,7 +119,7 @@ namespace OOPNET_WinFormsApp
 		}
 		private void flpAllPlayers_DragDrop(object sender, DragEventArgs e)
 		{
-			LocalPlayerView PlayerToRemove = e.Data.GetData(typeof(LocalPlayerView)) as LocalPlayerView;
+			FavoritePlayer PlayerToRemove = e.Data.GetData(typeof(FavoritePlayer)) as FavoritePlayer;
 
 			this._RemoveFavoritePlayerFromList(PlayerToRemove);
 			this._FillPlayerUserControls();
@@ -213,9 +214,9 @@ namespace OOPNET_WinFormsApp
 			}
 		}
 
-		private ISet<LocalPlayerView> _LoadFavoritePlayers()
+		private ISet<FavoritePlayer> _LoadFavoritePlayers()
 		{
-			ISet<LocalPlayerView> Result = new HashSet<LocalPlayerView>();
+			ISet<FavoritePlayer> Result = new HashSet<FavoritePlayer>();
 
 			if (!File.Exists(FAVORITE_PLAYERS_PATH))
 			{
@@ -226,7 +227,7 @@ namespace OOPNET_WinFormsApp
 
 			foreach (string line in fileLines)
 			{
-				Result.Add(LocalPlayerView.ParseFileLine(line, FAVORITE_PLAYERS_DELIM));
+				Result.Add(FavoritePlayer.ParseFileLine(line, FAVORITE_PLAYERS_DELIM));
 			}
 
 			return Result;
@@ -236,7 +237,7 @@ namespace OOPNET_WinFormsApp
 			this.flpAllPlayers.Controls.Clear();
 			this.flpFavoritePlayers.Controls.Clear();
 
-			foreach (LocalPlayerView favPlayer in this._FavoritePlayers)
+			foreach (FavoritePlayer favPlayer in this._FavoritePlayers)
 			{
 				this._Players.Remove(favPlayer);
 				favPlayer.IsFavorite = true;
@@ -251,7 +252,7 @@ namespace OOPNET_WinFormsApp
 				this.flpFavoritePlayers.Controls.Add(playerUC);
 			}
 
-			foreach (LocalPlayerView player in this._Players)
+			foreach (FavoritePlayer player in this._Players)
 			{
 				PlayerUC playerUC = new PlayerUC(player);
 
@@ -277,7 +278,7 @@ namespace OOPNET_WinFormsApp
 		private void _UpdateFile()
 		{
 			IList<string> fileLines = new List<string>();
-			foreach (LocalPlayerView favPlayer in this._FavoritePlayers)
+			foreach (FavoritePlayer favPlayer in this._FavoritePlayers)
 			{
 				fileLines.Add(favPlayer.FormatForFileLine(FAVORITE_PLAYERS_DELIM));
 			}
@@ -286,13 +287,13 @@ namespace OOPNET_WinFormsApp
 		}
 		
 
-		private void _AddFavoritePlayerToList(LocalPlayerView playerToAdd)
+		private void _AddFavoritePlayerToList(FavoritePlayer playerToAdd)
 		{
 			this._FavoritePlayers.Add(playerToAdd);
 
 			this._UpdateFile();
 		}
-		private void _RemoveFavoritePlayerFromList(LocalPlayerView e)
+		private void _RemoveFavoritePlayerFromList(FavoritePlayer e)
 		{
 			e.IsFavorite = false;
 
@@ -327,7 +328,7 @@ namespace OOPNET_WinFormsApp
 			}
 		}
 
-		private ISet<LocalPlayerView> _Players;
-		private ISet<LocalPlayerView> _FavoritePlayers;
+		private ISet<FavoritePlayer> _Players;
+		private ISet<FavoritePlayer> _FavoritePlayers;
 	}
 }

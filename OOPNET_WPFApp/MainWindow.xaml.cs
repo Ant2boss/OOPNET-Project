@@ -1,5 +1,6 @@
 ﻿using OOPNET_DataLayer.Configs;
 using OOPNET_DataLayer.Models;
+using OOPNET_DataLayer.Models.FavoritePlayers;
 using OOPNET_DataLayer.Repository;
 using OOPNET_Utils.Configuration;
 using OOPNET_WPFApp.Dialogs;
@@ -170,12 +171,12 @@ namespace OOPNET_WPFApp
 			ConfigurationParser.UpdateConfigFile(ConfigFilePaths.LOCAL_REPO_LOCAL_CONF_PATH, conf);
 
 			this._LoadCbOponents(new MyLoading());
-			this._UpdateGameInfoLabel();
+			this._UpdateGameInfo();
 		}
 
 		private Match _Game;
 
-		private void _UpdateGameInfoLabel()
+		private void _UpdateGameInfo()
 		{
 			if (!string.IsNullOrEmpty(this._SelectedFifaCode) && !string.IsNullOrEmpty(this._SelectedOpositionFifaCode))
 			{
@@ -212,6 +213,7 @@ namespace OOPNET_WPFApp
 		private void _HandlePlayersPannel(Grid grid, MatchTeamStatistics teamStats)
 		{
 			IList<MatchPlayer> startingEleven = teamStats.StartingEleven;
+			IList<FavoritePlayer> favPlayer = this._LoadFavoritePlayers().ToList();
 
 			for (int i = 0; i < 4; ++i)
 			{
@@ -220,23 +222,43 @@ namespace OOPNET_WPFApp
 
 			foreach (MatchPlayer player in startingEleven)
 			{
+				FavoritePlayer favoritePlayerWithImage = favPlayer.FirstOrDefault(p => p.Player.Name == player.Name);
+
+				PlayerUC playerUserControl = new PlayerUC(favoritePlayerWithImage ?? new FavoritePlayer(player));
+
+				playerUserControl.OnPlayerClicked += PlayerUserControl_OnPlayerClicked;
+
 				switch (player.Position)
 				{
 					case "Goalie":
-						(grid.Children[0] as StackPanel).Children.Add(new PlayerUC(player, ConfigFilePaths.LOCAL_REPO_IMAGES_DIR + "/1f62df80-419c-47e4-8f11-77e87af47fbc.png"));
+						(grid.Children[0] as StackPanel).Children.Add(playerUserControl);
 						break;
 					case "Defender":
-						(grid.Children[1] as StackPanel).Children.Add(new PlayerUC(player));
+						(grid.Children[1] as StackPanel).Children.Add(playerUserControl);
 						break;
 					case "Midfield":
-						(grid.Children[2] as StackPanel).Children.Add(new PlayerUC(player));
+						(grid.Children[2] as StackPanel).Children.Add(playerUserControl);
 						break;
 					case "Forward":
-						(grid.Children[3] as StackPanel).Children.Add(new PlayerUC(player));
+						(grid.Children[3] as StackPanel).Children.Add(playerUserControl);
 						break;
 				}
 			}
+		}
 
+		private void PlayerUserControl_OnPlayerClicked(object sender, FavoritePlayer e)
+		{
+			
+		}
+
+		private IEnumerable<FavoritePlayer> _LoadFavoritePlayers()
+		{
+			string[] fileLines = File.ReadAllLines(ConfigFilePaths.LOCAL_REPO_DIR + "/FavoritePlayers.txt");
+
+			foreach (string line in fileLines)
+			{
+				yield return FavoritePlayer.ParseFileLine(line, FavoritePlayer.FAVORITE_PLAYERS_DELIM);
+			}
 		}
 
 		private void _HandleButton(Button buttonToHandle, string data)
@@ -256,7 +278,7 @@ namespace OOPNET_WPFApp
 		{
 			this._SelectedOpositionFifaCode = (this.cbOpositionsRep.SelectedItem as MatchTeam)?.Code;
 
-			this._UpdateGameInfoLabel();
+			this._UpdateGameInfo();
 		}
 
 		private void btnFavTeam_Click(object sender, RoutedEventArgs e)

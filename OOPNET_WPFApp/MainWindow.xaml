@@ -58,9 +58,9 @@
 
 		<Grid 
 			Background="Green"
-			Height="350"
+			Height="480"
 			Style="{StaticResource settings-group}"
-			Margin="50 0 50 30">
+			Margin="50 0 50 0">
 
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition />

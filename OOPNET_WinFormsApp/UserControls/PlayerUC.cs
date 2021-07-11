@@ -1,5 +1,6 @@
 ﻿using OOPNET_DataLayer.Configs;
 using OOPNET_DataLayer.Models;
+using OOPNET_DataLayer.Models.FavoritePlayers;
 using OOPNET_WinFormsApp.Models;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace OOPNET_WinFormsApp.UserControls
 {
 	public partial class PlayerUC : UserControl
 	{
-		public PlayerUC(LocalPlayerView Player)
+		public PlayerUC(FavoritePlayer Player)
 		{
 			InitializeComponent();
 
@@ -44,8 +45,8 @@ namespace OOPNET_WinFormsApp.UserControls
 
 		public event EventHandler OnPlayerImageUpdated;
 
-		public event EventHandler<LocalPlayerView> OnMoveToFavorites;
-		public event EventHandler<LocalPlayerView> OnRemoveFromFavorites;
+		public event EventHandler<FavoritePlayer> OnMoveToFavorites;
+		public event EventHandler<FavoritePlayer> OnRemoveFromFavorites;
 
 		private void PlayerUC_MouseDown(object sender, MouseEventArgs e)
 		{
@@ -87,7 +88,7 @@ namespace OOPNET_WinFormsApp.UserControls
 		}
 
 
-		LocalPlayerView _Player;
+		FavoritePlayer _Player;
 
 	}
 }

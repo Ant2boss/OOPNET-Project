@@ -7,8 +7,32 @@
              mc:Ignorable="d" 
              d:DesignWidth="150"
 			 d:DesignHeight="150">
+
+	<UserControl.Resources>
+		<Style TargetType="Grid" x:Key="main-grid">
+			<Style.Triggers>
+				<EventTrigger RoutedEvent="MouseEnter">
+					<BeginStoryboard>
+						<Storyboard>
+							<ColorAnimation To="#33000000" Duration="0:0:0.25" Storyboard.TargetProperty="Background.Color" />
+						</Storyboard>
+					</BeginStoryboard>
+				</EventTrigger>
+				<EventTrigger RoutedEvent="MouseLeave">
+					<BeginStoryboard>
+						<Storyboard>
+							<ColorAnimation Duration="0:0:1" Storyboard.TargetProperty="Background.Color" />
+						</Storyboard>
+					</BeginStoryboard>
+				</EventTrigger>
+			</Style.Triggers>
+		</Style>
+	</UserControl.Resources>
+	
     <Grid 
-		MouseLeftButtonDown="Grid_MouseLeftButtonDown">
+		MouseLeftButtonDown="Grid_MouseLeftButtonDown"
+		Background="#00000000"
+		Style="{StaticResource main-grid}">
 		
 		<Grid.RowDefinitions>
 			<RowDefinition Height="auto"/>
@@ -22,21 +46,29 @@
 			Margin="5"
 			Height="55"
 			Width="70">
-			<Image Stretch="Fill">
+			<Image Stretch="Fill" x:Name="img">
 				<Image.Source>
 					<BitmapImage x:Name="imgPlayerImage" UriSource="noimage.jpg"  />
 				</Image.Source>
 			</Image>
 		</Label>
-		
+
+		<Ellipse 
+			Grid.Row="1"
+			VerticalAlignment="Bottom"
+			HorizontalAlignment="Center"
+			Width="25"
+			Height="25"
+			Fill="White"/>
 
 		<Label
 			Grid.Row="1"
 			Content="X"
 			VerticalContentAlignment="Bottom"
-			HorizontalContentAlignment="Center"
+			HorizontalAlignment="Center"
 			FontSize="12"
 			x:Name="lbShirtNumber"/>
+
 
 		<TextBlock
 			Grid.Row="2"

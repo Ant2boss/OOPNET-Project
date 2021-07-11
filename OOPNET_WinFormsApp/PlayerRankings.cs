@@ -1,4 +1,5 @@
 ﻿using OOPNET_DataLayer.Models;
+using OOPNET_DataLayer.Models.FavoritePlayers;
 using OOPNET_DataLayer.Repository;
 using OOPNET_WinFormsApp.Dialogs;
 using OOPNET_WinFormsApp.Models;
@@ -56,7 +57,7 @@ namespace OOPNET_WinFormsApp
 
 			this._PlayerStatistics = new List<PlayerStatistics>();
 
-			foreach (LocalPlayerView player in this._FavortitePlayers)
+			foreach (FavoritePlayer player in this._FavortitePlayers)
 			{
 				PlayerStatistics ps = this._RankingsRepo.GetStatisticsForPlayer(player.Player.Name, player.ImagePath);
 
@@ -191,15 +192,15 @@ namespace OOPNET_WinFormsApp
 			this.bgLoader.RunWorkerAsync(this._FifaCode);
 			this._ProgressDialog.ShowDialog();
 		}
-		private ISet<LocalPlayerView> _ParseFavoritePlayersFile()
+		private ISet<FavoritePlayer> _ParseFavoritePlayersFile()
 		{
-			ISet<LocalPlayerView> Result = new HashSet<LocalPlayerView>();
+			ISet<FavoritePlayer> Result = new HashSet<FavoritePlayer>();
 
 			string[] fileLines = File.ReadAllLines(FAVORITE_PATH);
 
 			foreach (string line in fileLines)
 			{
-				Result.Add(LocalPlayerView.ParseFileLine(line, FAVORITE_DELIM));
+				Result.Add(FavoritePlayer.ParseFileLine(line, FAVORITE_DELIM));
 			}
 
 			return Result;
@@ -318,7 +319,7 @@ namespace OOPNET_WinFormsApp
 
 		}
 
-		private ISet<LocalPlayerView> _FavortitePlayers;
+		private ISet<FavoritePlayer> _FavortitePlayers;
 		private IList<PlayerStatistics> _PlayerStatistics;
 
 		private IList<PlayerYellowCardView> _PlayersYellowCards;

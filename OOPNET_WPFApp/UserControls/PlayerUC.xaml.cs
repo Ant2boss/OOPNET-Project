@@ -1,6 +1,8 @@
 ﻿using OOPNET_DataLayer.Models;
+using OOPNET_DataLayer.Models.FavoritePlayers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,29 +23,30 @@ namespace OOPNET_WPFApp.UserControls
 	/// </summary>
 	public partial class PlayerUC : UserControl
 	{
-		public PlayerUC(MatchPlayer player)
+		public PlayerUC(FavoritePlayer player)
 		{
 			InitializeComponent();
 
 			this._InitUC(player);
 		}
 
-		public PlayerUC(MatchPlayer player, string ImgPath) : this(player)
-		{
-			this.imgPlayerImage.UriSource = new Uri(ImgPath, UriKind.Relative);
-		}
-
-		private void _InitUC(MatchPlayer player)
+		private void _InitUC(FavoritePlayer player)
 		{
 			this._Player = player;
 
-			this.lbShirtNumber.Content = player.ShirtNumber;
-			this.tbPlayerName.Text = player.Name;
+			this.lbShirtNumber.Content = player.Player.ShirtNumber;
+			this.tbPlayerName.Text = player.Player.Name;
+
+
+			if (!string.IsNullOrEmpty(player.ImagePath))
+			{
+				this.img.Source = new BitmapImage(new Uri(System.IO.Path.GetFullPath(player.ImagePath), UriKind.Absolute));
+			}
 		}
 
-		private MatchPlayer _Player;
+		private FavoritePlayer _Player;
 
-		public event EventHandler<MatchPlayer> OnPlayerClicked;
+		public event EventHandler<FavoritePlayer> OnPlayerClicked;
 
 		private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{

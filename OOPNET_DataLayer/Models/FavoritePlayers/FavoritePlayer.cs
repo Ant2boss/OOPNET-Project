@@ -17,6 +17,8 @@ namespace OOPNET_DataLayer.Models.FavoritePlayers
 		public string ImagePath { get; set; }
 		public MatchPlayer Player { get; }
 
+		public const char FAVORITE_PLAYERS_DELIM = '|';
+
 		public static FavoritePlayer ParseFileLine(string line, char del)
 		{
 			string[] lineParts = line.Split(del);
