@@ -30,9 +30,32 @@
 			<ComboBox Grid.Column="1" Grid.Row="2" IsEnabled="False" x:Name="cbOpositionsRep" SelectionChanged="cbOpositionsRep_SelectionChanged" />
 		</Grid>
 
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition Width="50" />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+
+			<Button 
+				Grid.Column="0"
+				Style="{StaticResource settings-buttons}"
+				Visibility="Hidden"
+				x:Name="btnFavTeam"
+				Click="btnFavTeam_Click"/>
+			<Button 
+				Grid.Column="2"
+				Style="{StaticResource settings-buttons}"
+				Visibility="Hidden"
+				x:Name="btnOppTeam"
+				Click="btnOppTeam_Click"/>
+		</Grid>
+
 		<Separator />
 
 		<Label x:Name="lbBigGame" Style="{StaticResource header}" />
+		<Label x:Name="lbGameScore" Style="{StaticResource header}" />
 
+		
 	</StackPanel>
 </Window>

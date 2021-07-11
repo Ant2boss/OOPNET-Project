@@ -42,7 +42,7 @@ namespace OOPNET_WPFApp
 		ITeamsRepo _TeamsRepo;
 		IMatchesRepo _MatchesRepo;
 
-		IList<Team> _TeamsList;
+		IList<TeamResults> _TeamsList;
 		ISet<MatchTeam> _OppositionSet;
 
 		string _SelectedFifaCode;
@@ -55,7 +55,7 @@ namespace OOPNET_WPFApp
 
 			this._OppositionSet = new HashSet<MatchTeam>();
 
-			this._LoadTeamsList(new MyLoading());
+			this._LoadTeamsAndMatchesList(new MyLoading());
 
 			foreach (Team team in this._TeamsList)
 			{
@@ -69,10 +69,10 @@ namespace OOPNET_WPFApp
 			}
 		}
 
-		private void _LoadTeamsList(MyLoading dialog)
+		private void _LoadTeamsAndMatchesList(MyLoading dialog)
 		{
 			dialog.Show();
-			this._TeamsList = this._TeamsRepo.GetAllTeams();
+			this._TeamsList = this._TeamsRepo.GetAllTeamResults();
 			dialog.Close();
 		}
 
@@ -178,18 +178,48 @@ namespace OOPNET_WPFApp
 			ConfigurationParser.UpdateConfigFile(ConfigFilePaths.LOCAL_REPO_LOCAL_CONF_PATH, conf);
 
 			this._LoadCbOponents(new MyLoading());
-			this._UpdateBigLabel();
+			this._UpdateGameInfoLabel();
 		}
 
-		private void _UpdateBigLabel()
+		private Match _Game;
+
+		private void _UpdateGameInfoLabel()
 		{
 			if (!string.IsNullOrEmpty(this._SelectedFifaCode) && !string.IsNullOrEmpty(this._SelectedOpositionFifaCode))
-			{ 
+			{
 				this.lbBigGame.Content = $"{this._SelectedFifaCode} ~VS~ {this._SelectedOpositionFifaCode}";
+
+				this._Game = this._MatchesRepo
+					.GetMatchesOfCountry(this._SelectedFifaCode)
+					.FirstOrDefault(m => m.HomeTeam.Code == this._SelectedOpositionFifaCode || m.AwayTeam.Code == this._SelectedOpositionFifaCode);
+
+				long favTeamGoal = (this._Game.HomeTeam.Code == this._SelectedFifaCode) ? (this._Game.HomeTeam.Goals) : (this._Game.AwayTeam.Goals);
+				long OppTeamGoal = (this._Game.HomeTeam.Code == this._SelectedOpositionFifaCode) ? (this._Game.HomeTeam.Goals) : (this._Game.AwayTeam.Goals);
+
+				this.lbGameScore.Content = $"{favTeamGoal} : {OppTeamGoal}";
 			}
 			else
 			{
 				this.lbBigGame.Content = "~VS~";
+				this.lbGameScore.Content = "";
+				this._Game = null;
+			}
+
+			this._HandleButton(this.btnFavTeam, this._SelectedFifaCode);
+			this._HandleButton(this.btnOppTeam, this._SelectedOpositionFifaCode);
+
+		}
+
+		private void _HandleButton(Button buttonToHandle, string data)
+		{
+			if (!string.IsNullOrEmpty(data))
+			{
+				buttonToHandle.Content = data;
+				buttonToHandle.Visibility = Visibility.Visible;
+			}
+			else
+			{
+				buttonToHandle.Visibility = Visibility.Hidden;
 			}
 		}
 
@@ -197,7 +227,17 @@ namespace OOPNET_WPFApp
 		{
 			this._SelectedOpositionFifaCode = (this.cbOpositionsRep.SelectedItem as MatchTeam)?.Code;
 
-			this._UpdateBigLabel();
+			this._UpdateGameInfoLabel();
+		}
+
+		private void btnFavTeam_Click(object sender, RoutedEventArgs e)
+		{
+			new TeamInformation(this._TeamsList.First(t => t.FifaCode == this._SelectedFifaCode)).ShowDialog();
+		}
+
+		private void btnOppTeam_Click(object sender, RoutedEventArgs e)
+		{
+			new TeamInformation(this._TeamsList.First(t => t.FifaCode == this._SelectedOpositionFifaCode)).ShowDialog();
 		}
 	}
 }
