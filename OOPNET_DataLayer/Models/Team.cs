@@ -28,6 +28,18 @@ namespace OOPNET_DataLayer.Models
         [JsonProperty("group_letter")]
         public string GroupLetter { get; set; }
 
-        public override string ToString() => $"{this.Country} ({this.FifaCode})";
+		public override bool Equals(object obj)
+		{
+			return obj is Team team &&
+				   FifaCode == team.FifaCode;
+		}
+		public override int GetHashCode()
+		{
+			return -975964944 + EqualityComparer<string>.Default.GetHashCode(FifaCode);
+		}
+
+		public override string ToString() => $"{this.Country} ({this.FifaCode})";
+
+
 	}
 }

@@ -6,8 +6,33 @@
         xmlns:local="clr-namespace:OOPNET_WPFApp"
         mc:Ignorable="d"
 		WindowStartupLocation="CenterScreen"
-        Title="MainWindow">
-    <Grid>
-        
-    </Grid>
+        Title="MainWindow"
+		ResizeMode="NoResize">
+    <StackPanel>
+		<Label Content="Utakmice" Style="{StaticResource header}" />
+
+		<Grid Style="{StaticResource settings-group}">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="150" />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+
+			<Grid.RowDefinitions>
+				<RowDefinition />
+				<RowDefinition Height="10"/>
+				<RowDefinition />
+			</Grid.RowDefinitions>
+			
+		    <Label Grid.Column="0" Content="Omiljena reprezentacija" />
+			<ComboBox Grid.Column="1" x:Name="cbFavoriteRep" SelectionChanged="cbFavoriteRep_SelectionChanged"  />
+			
+		    <Label Grid.Column="0" Grid.Row="2" Content="Suparnička reprezentacija" />
+			<ComboBox Grid.Column="1" Grid.Row="2" IsEnabled="False" x:Name="cbOpositionsRep" SelectionChanged="cbOpositionsRep_SelectionChanged" />
+		</Grid>
+
+		<Separator />
+
+		<Label x:Name="lbBigGame" Style="{StaticResource header}" />
+
+	</StackPanel>
 </Window>

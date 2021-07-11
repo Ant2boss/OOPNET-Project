@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configs\ConfigFilePaths.cs" />
+    <Compile Include="Configs\ConfigKeys.cs" />
     <Compile Include="Configs\GlobalConfig.cs" />
     <Compile Include="Models\Converters\Converter.cs" />
     <Compile Include="Models\Match.cs" />

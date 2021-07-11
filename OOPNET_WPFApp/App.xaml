@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:OOPNET_WPFApp"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
-    </Application.Resources>
+		<ResourceDictionary Source="Resources/BaseDictionary.xaml"/>
+	</Application.Resources>
 </Application>
