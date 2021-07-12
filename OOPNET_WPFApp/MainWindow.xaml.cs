@@ -110,7 +110,7 @@ namespace OOPNET_WPFApp
 			}
 			catch (Exception)
 			{
-				MessageBox.Show("Error reading settings!", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+				MessageBox.Show(OOPNET_WPFApp.Properties.InfoMessages.ErrorReadingConfig, Properties.InfoMessages.ErrorTitle, MessageBoxButton.OK, MessageBoxImage.Warning);
 				File.Delete(this.GLOBAL_CONFIG);
 				this._InitSettings();
 			}
@@ -130,6 +130,8 @@ namespace OOPNET_WPFApp
 
 				this.WindowStyle = WindowStyle.None;
 				this.WindowState = WindowState.Maximized;
+
+				return;
 			}
 
 			if (this._OriginalState.HasValue)
@@ -203,6 +205,9 @@ namespace OOPNET_WPFApp
 				this.lbBigGame.Content = "~VS~";
 				this.lbGameScore.Content = "";
 				this._Game = null;
+
+				this._ClearField(this.GridSelectedTeam);
+				this._ClearField(this.GridOppositionTeam);
 			}
 
 			this._HandleButton(this.btnFavTeam, this._SelectedFifaCode);
@@ -215,10 +220,7 @@ namespace OOPNET_WPFApp
 			IList<MatchPlayer> startingEleven = teamStats.StartingEleven;
 			IList<FavoritePlayer> favPlayer = this._LoadFavoritePlayers().ToList();
 
-			for (int i = 0; i < 4; ++i)
-			{
-				(grid.Children[i] as StackPanel).Children.Clear();
-			}
+			this._ClearField(grid);
 
 			foreach (MatchPlayer player in startingEleven)
 			{
@@ -246,9 +248,18 @@ namespace OOPNET_WPFApp
 			}
 		}
 
+		private void _ClearField(Grid grid)
+		{
+			for (int i = 0; i < 4; ++i)
+			{
+				(grid.Children[i] as StackPanel).Children.Clear();
+			}
+		}
+
 		private void PlayerUserControl_OnPlayerClicked(object sender, FavoritePlayer e)
 		{
-			
+			MyPlayer playerDialog = new MyPlayer(e, this._Game);
+			playerDialog.ShowDialog();
 		}
 
 		private IEnumerable<FavoritePlayer> _LoadFavoritePlayers()
@@ -289,6 +300,38 @@ namespace OOPNET_WPFApp
 		private void btnOppTeam_Click(object sender, RoutedEventArgs e)
 		{
 			new TeamInformation(this._TeamsList.First(t => t.FifaCode == this._SelectedOpositionFifaCode)).ShowDialog();
+		}
+
+		private void btnSettings_Click(object sender, RoutedEventArgs e)
+		{
+			Settings settingsDialog = new Settings();
+
+			bool? isOk = settingsDialog.ShowDialog();
+
+			if (isOk.HasValue && isOk.Value)
+			{
+				IDictionary<string, string> conf = ConfigurationParser.ParseConfigFile(this.GLOBAL_CONFIG);
+
+				conf[GlobalConfig.CONFK_CULTURE] = settingsDialog.Culture;
+				conf[GlobalConfig.CONFK_CUP_TYPE] = (settingsDialog.IsMaleCup) ? (CupType.MaleCup.ToString()) : (CupType.FemaleCup.ToString());
+				conf[GlobalConfig.CONFK_RESOLUTION] = settingsDialog.Resolution;
+
+				ConfigurationParser.UpdateConfigFile(this.GLOBAL_CONFIG, conf);
+
+				MessageBox.Show(Properties.InfoMessages.SettingsCloseMessage, Properties.InfoMessages.SettingsCloseTitle, MessageBoxButton.OK, MessageBoxImage.Information);
+
+				this.Close();
+			}
+
+		}
+
+		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			if (MessageBox.Show(Properties.InfoMessages.AppCloseMessage, Properties.InfoMessages.AppCloseTitle, MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.Cancel)
+			{
+				e.Cancel = true;
+			}
+
 		}
 	}
 }

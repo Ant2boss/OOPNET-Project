@@ -4,74 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OOPNET_WPFApp.Dialogs"
+        xmlns:properties="clr-namespace:OOPNET_WPFApp.Properties"
         mc:Ignorable="d"
 		WindowStartupLocation="CenterScreen"
-        Title="Settings"
+        Title="{x:Static properties:Resources.Settings_Title}"
 		Height="450"
 		MinHeight="300"
 		Width="500"
 		MinWidth="450">
-	<Window.Resources>
-		<ControlTemplate TargetType="Button" x:Key="template-btn-base">
-			<Grid x:Name="btn_base_grid">
-				
-				<Border 
-					BorderBrush="#879194" 
-					BorderThickness="1" 
-					CornerRadius="5" 
-					Background="#edf1f2"
-					x:Name="btn_base_border"/>
-
-				<ContentPresenter 
-					VerticalAlignment="Center" 
-					HorizontalAlignment="Center"
-					x:Name="btn_base_content"/>
-			</Grid>
-
-			<ControlTemplate.Triggers>
-				<EventTrigger RoutedEvent="MouseEnter">
-					<BeginStoryboard>
-						<Storyboard>
-							<ColorAnimation
-								Storyboard.TargetName="btn_base_border"
-								Storyboard.TargetProperty="Background.Color"
-								To="#bdbebf"
-								Duration="0:0:0.25" />
-						</Storyboard>
-					</BeginStoryboard>
-				</EventTrigger>
-				<EventTrigger RoutedEvent="MouseLeave">
-					<BeginStoryboard>
-						<Storyboard>
-							<ColorAnimation
-								Storyboard.TargetName="btn_base_border"
-								Storyboard.TargetProperty="Background.Color"
-								Duration="0:0:0.25" />
-						</Storyboard>
-					</BeginStoryboard>
-				</EventTrigger>
-			</ControlTemplate.Triggers>
-		</ControlTemplate>
-
-		<Style TargetType="Label" x:Key="header">
-			<Setter Property="FontSize" Value="24" />
-			<Setter Property="HorizontalAlignment" Value="Center" />
-		</Style>
-		<Style TargetType="Panel" x:Key="settings-group">
-			<Setter Property="Margin" Value="50 0 50 10" />
-		</Style>
-		<Style TargetType="Button" x:Key="settings-buttons">
-			<Setter Property="HorizontalAlignment" Value="Center" />
-			<Setter Property="Width" Value="150" />
-			<Setter Property="Height" Value="35" />
-			<Setter Property="Template" Value="{StaticResource template-btn-base}" />
-		</Style>
-	</Window.Resources>
-    <StackPanel>
-        <Label Content="Postavke" Style="{StaticResource header}"/>
+	
+	<StackPanel>
+        <Label Content="{x:Static properties:Resources.Settings_Title}" Style="{StaticResource header}"/>
 
 		<StackPanel Style="{StaticResource settings-group}">
-			<Label Content="Jezik" />
+			<Label Content="{x:Static properties:Resources.Settings_Language}" />
 			<ComboBox x:Name="cbLanguage">
 				<ComboBoxItem IsSelected="True" Content="HR"/>
 				<ComboBoxItem Content="EN"/>
@@ -79,13 +25,13 @@
 		</StackPanel>
 
 		<StackPanel Style="{StaticResource settings-group}">
-			<Label Content="Prvenstvo" />
+			<Label Content="{x:Static properties:Resources.Settings_Cupy}" />
 			<RadioButton x:Name="rbMaleCup" IsChecked="True" Content="Muško prevnstvo" />
 			<RadioButton Content="Žensko prvenstvo" />
 		</StackPanel>
 
 		<StackPanel Style="{StaticResource settings-group}">
-			<Label Content="Rezolucija" />
+			<Label Content="{x:Static properties:Resources.Settings_Resolution}" />
 			<ComboBox x:Name="cbResolution">
 				<ComboBoxItem IsSelected="true" Content="1024x768" />
 				<ComboBoxItem Content="1280x960" />
@@ -99,9 +45,9 @@
 				<ColumnDefinition />
 				<ColumnDefinition />
 			</Grid.ColumnDefinitions>
-			
-			<Button Grid.Column="0" Content="Potvrdi" Style="{StaticResource settings-buttons}" IsDefault="True" Click="OkButton_Click"/>
-			<Button Grid.Column="1" Content="Odustani" Style="{StaticResource settings-buttons}" IsCancel="True"/>
+
+			<Button Grid.Column="0" Content="{x:Static properties:Resources.ButtonConfirm}" Style="{StaticResource settings-buttons}" IsDefault="True" Click="OkButton_Click"/>
+			<Button Grid.Column="1" Content="{x:Static properties:Resources.ButtonCancel}" Style="{StaticResource settings-buttons}" IsCancel="True"/>
 		</Grid>
 
 	</StackPanel>

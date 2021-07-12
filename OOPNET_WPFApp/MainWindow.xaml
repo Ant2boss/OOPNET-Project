@@ -4,12 +4,24 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OOPNET_WPFApp"
+		xmlns:properties="clr-namespace:OOPNET_WPFApp.Properties"
         mc:Ignorable="d"
 		WindowStartupLocation="CenterScreen"
-        Title="MainWindow"
-		ResizeMode="NoResize">
-    <StackPanel>
-		<Label Content="Utakmice" Style="{StaticResource header}" />
+        Title="{x:Static properties:Resources.MainTitle}"
+		ResizeMode="NoResize"
+		Closing="Window_Closing">
+
+	<StackPanel>
+		<Grid>
+			<Button
+				HorizontalAlignment="Left"
+				VerticalAlignment="Top"
+				Content="{x:Static properties:Resources.SettingsButton}"
+				Margin="5"
+				Click="btnSettings_Click"/>
+			
+			<Label Content="{x:Static properties:Resources.MainTitle}" Style="{StaticResource header}" />
+		</Grid>
 
 		<Grid Style="{StaticResource settings-group}">
 			<Grid.ColumnDefinitions>
@@ -23,10 +35,10 @@
 				<RowDefinition />
 			</Grid.RowDefinitions>
 			
-		    <Label Grid.Column="0" Content="Omiljena reprezentacija" />
+		    <Label Grid.Column="0" Content="{x:Static properties:Resources.FavoriteRepLabel}" />
 			<ComboBox Grid.Column="1" x:Name="cbFavoriteRep" SelectionChanged="cbFavoriteRep_SelectionChanged"  />
 			
-		    <Label Grid.Column="0" Grid.Row="2" Content="Suparnička reprezentacija" />
+		    <Label Grid.Column="0" Grid.Row="2" Content="{x:Static properties:Resources.OppositeRepLabel}" />
 			<ComboBox Grid.Column="1" Grid.Row="2" IsEnabled="False" x:Name="cbOpositionsRep" SelectionChanged="cbOpositionsRep_SelectionChanged" />
 		</Grid>
 

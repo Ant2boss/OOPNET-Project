@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OOPNET_WPFApp.Dialogs"
+        xmlns:properties="clr-namespace:OOPNET_WPFApp.Properties"
         mc:Ignorable="d"
-        Title="TeamInformation" 
+        Title="Team Information" 
 		Height="450"
 		Width="400"
 		MinWidth="300"
@@ -54,25 +55,25 @@
 			</Grid.RowDefinitions>
 
 			<Label
-				Content="Odigrano:"
+				Content="{x:Static properties:Resources.TeamInformation_GamesPlayed}"
 				Grid.Row="0"
 				Grid.Column="0"
 				Style="{StaticResource align-right}"
 				/>
 			<Label
-				Content="Pobjeda:"
+				Content="{x:Static properties:Resources.TeamInformation_GamesWon}"
 				Grid.Row="1"
 				Grid.Column="0"
 				Style="{StaticResource align-right}"
 				/>
 			<Label
-				Content="Poraza:"
+				Content="{x:Static properties:Resources.TeamInformation_GamesLost}"
 				Grid.Row="2"
 				Grid.Column="0"
 				Style="{StaticResource align-right}"
 				/>
 			<Label
-				Content="Neodlučeno:"
+				Content="{x:Static properties:Resources.TeamInformation_GamesUndecided}"
 				Grid.Row="3"
 				Grid.Column="0"
 				Style="{StaticResource align-right}"
@@ -124,19 +125,19 @@
 			</Grid.RowDefinitions>
 
 			<Label
-				Content="Zabijeno golova:"
+				Content="{x:Static properties:Resources.TeamInformation_GoalCount}"
 				Grid.Row="0"
 				Grid.Column="0"
 				Style="{StaticResource align-right}"
 				/>
 			<Label
-				Content="Primljeno golova:"
+				Content="{x:Static properties:Resources.TeamInformation_GoalsTakenCount}"
 				Grid.Row="1"
 				Grid.Column="0"
 				Style="{StaticResource align-right}"
 				/>
 			<Label
-				Content="Razlika:"
+				Content="{x:Static properties:Resources.TeamInformation_GoalsDifference}"
 				Grid.Row="2"
 				Grid.Column="0"
 				Style="{StaticResource align-right}"
@@ -163,11 +164,10 @@
 				Style="{StaticResource align-left}"
 				x:Name="lbGoalsDiffCount"
 				/>
-
 		</Grid>
 
 		<Button
-			Content="Close"
+			Content="{x:Static properties:Resources.ButtonClose}"
 			Style="{StaticResource settings-buttons}"
 			IsCancel="True"/>
 

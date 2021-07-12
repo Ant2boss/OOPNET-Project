@@ -117,88 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ButtonCancel" xml:space="preserve">
-    <value>Odustani</value>
+  <data name="AppCloseMessage" xml:space="preserve">
+    <value>Are you sure?</value>
   </data>
-  <data name="ButtonClose" xml:space="preserve">
-    <value>Zatvori</value>
+  <data name="AppCloseTitle" xml:space="preserve">
+    <value>Really?</value>
   </data>
-  <data name="ButtonConfirm" xml:space="preserve">
-    <value>Potvrdi</value>
+  <data name="ErrorReadingConfig" xml:space="preserve">
+    <value>Error loading configuration</value>
   </data>
-  <data name="FavoriteRepLabel" xml:space="preserve">
-    <value>Omiljena reprezentacija</value>
+  <data name="ErrorTitle" xml:space="preserve">
+    <value>Error</value>
   </data>
-  <data name="Loading_Loading" xml:space="preserve">
-    <value>Učitavanje...</value>
+  <data name="SettingsCloseMessage" xml:space="preserve">
+    <value>Aplication must restart for new settings to take effect</value>
   </data>
-  <data name="MainTitle" xml:space="preserve">
-    <value>WPF - Utakmice</value>
-  </data>
-  <data name="MyPlayer_Captain" xml:space="preserve">
-    <value>Kapetan:</value>
-  </data>
-  <data name="MyPlayer_GoalCount" xml:space="preserve">
-    <value>Broj golova:</value>
-  </data>
-  <data name="MyPlayer_Name" xml:space="preserve">
-    <value>Ime:</value>
-  </data>
-  <data name="MyPlayer_Number" xml:space="preserve">
-    <value>Broj:</value>
-  </data>
-  <data name="MyPlayer_Position" xml:space="preserve">
-    <value>Pozicija:</value>
-  </data>
-  <data name="MyPlayer_Title" xml:space="preserve">
-    <value>Pregled igrača</value>
-  </data>
-  <data name="MyPlayer_YellowCount" xml:space="preserve">
-    <value>Broj žutih karti:</value>
-  </data>
-  <data name="OppositeRepLabel" xml:space="preserve">
-    <value>Suparnička reprezentacija</value>
-  </data>
-  <data name="OptionNo" xml:space="preserve">
-    <value>NE</value>
-  </data>
-  <data name="OptionYes" xml:space="preserve">
-    <value>DA</value>
-  </data>
-  <data name="SettingsButton" xml:space="preserve">
-    <value>Postavke</value>
-  </data>
-  <data name="Settings_Cupy" xml:space="preserve">
-    <value>Prvenstvo</value>
-  </data>
-  <data name="Settings_Language" xml:space="preserve">
-    <value>Jezik</value>
-  </data>
-  <data name="Settings_Resolution" xml:space="preserve">
-    <value>Rezolucija</value>
-  </data>
-  <data name="Settings_Title" xml:space="preserve">
-    <value>Postavke</value>
-  </data>
-  <data name="TeamInformation_GamesLost" xml:space="preserve">
-    <value>Poraza:</value>
-  </data>
-  <data name="TeamInformation_GamesPlayed" xml:space="preserve">
-    <value>Odigrano:</value>
-  </data>
-  <data name="TeamInformation_GamesUndecided" xml:space="preserve">
-    <value>Neodlučeno:</value>
-  </data>
-  <data name="TeamInformation_GamesWon" xml:space="preserve">
-    <value>Pobjeda:</value>
-  </data>
-  <data name="TeamInformation_GoalCount" xml:space="preserve">
-    <value>Broj golova:</value>
-  </data>
-  <data name="TeamInformation_GoalsDifference" xml:space="preserve">
-    <value>Razlika golova:</value>
-  </data>
-  <data name="TeamInformation_GoalsTakenCount" xml:space="preserve">
-    <value>Primljeno golova:</value>
+  <data name="SettingsCloseTitle" xml:space="preserve">
+    <value>New settings</value>
   </data>
 </root>

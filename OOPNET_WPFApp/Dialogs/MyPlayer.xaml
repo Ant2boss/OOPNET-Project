@@ -1,0 +1,135 @@
+﻿<Window x:Class="OOPNET_WPFApp.Dialogs.MyPlayer"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OOPNET_WPFApp.Dialogs"
+        xmlns:properties="clr-namespace:OOPNET_WPFApp.Properties"
+        mc:Ignorable="d"
+        Title="{x:Static properties:Resources.MyPlayer_Title}" 
+		Height="450" 
+		Width="350"
+		MinWidth="350"
+		ResizeMode="NoResize"
+		WindowStartupLocation="CenterScreen">
+
+	<Window.Triggers>
+		<EventTrigger RoutedEvent="Loaded">
+			<BeginStoryboard>
+				<Storyboard>
+					<DoubleAnimation
+						Storyboard.TargetProperty="Height"
+						From="0"
+						To="450"
+						Duration="0:0:0.7" />
+				</Storyboard>
+			</BeginStoryboard>
+		</EventTrigger>
+	</Window.Triggers>
+
+	<StackPanel>
+		<Label 
+			Content="{x:Static properties:Resources.MyPlayer_Title}"
+			Style="{StaticResource header}"/>
+
+		<Image
+			Width="200"
+			Height="100"
+			x:Name="imgImage" />
+
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+
+			<Grid.RowDefinitions>
+				<RowDefinition />
+				<RowDefinition />
+				<RowDefinition />
+				<RowDefinition />
+				<RowDefinition />
+				<RowDefinition />
+			</Grid.RowDefinitions>
+
+			<Label
+				Content="{x:Static properties:Resources.MyPlayer_Name}"
+				Grid.Row="0"
+				Grid.Column="0"
+				Style="{StaticResource align-right}"/>
+			<Label
+				Content="{x:Static properties:Resources.MyPlayer_Number}"
+				Grid.Row="1"
+				Grid.Column="0"
+				Style="{StaticResource align-right}"/>
+			<Label
+				Content="{x:Static properties:Resources.MyPlayer_Position}"
+				Grid.Row="2"
+				Grid.Column="0"
+				Style="{StaticResource align-right}"/>
+			<Label
+				Content="{x:Static properties:Resources.MyPlayer_Captain}"
+				Grid.Row="3"
+				Grid.Column="0"
+				Style="{StaticResource align-right}"/>
+			<Label
+				Content="{x:Static properties:Resources.MyPlayer_GoalCount}"
+				Grid.Row="4"
+				Grid.Column="0"
+				Style="{StaticResource align-right}"/>
+			<Label
+				Content="{x:Static properties:Resources.MyPlayer_YellowCount}"
+				Grid.Row="5"
+				Grid.Column="0"
+				Style="{StaticResource align-right}"/>
+
+			<!--Right side-->
+			
+			<Label
+				Content="XXXXXXXXXXX"
+				Grid.Row="0"
+				Grid.Column="1"
+				Style="{StaticResource align-left}"
+				x:Name="lbName"/>
+			<Label
+				Content="XX"
+				Grid.Row="1"
+				Grid.Column="1"
+				Style="{StaticResource align-left}"
+				x:Name="lbShirtNumber"/>
+			<Label
+				Content="XX"
+				Grid.Row="2"
+				Grid.Column="1"
+				Style="{StaticResource align-left}"
+				x:Name="lbPosition"/>
+			<Label
+				Content="X"
+				Grid.Row="3"
+				Grid.Column="1"
+				Style="{StaticResource align-left}"
+				x:Name="lbIsCaptain"/>
+			<Label
+				Content="XX"
+				Grid.Row="4"
+				Grid.Column="1"
+				Style="{StaticResource align-left}"
+				x:Name="lbGoalCount"/>
+			<Label
+				Content="XX"
+				Grid.Row="5"
+				Grid.Column="1"
+				Style="{StaticResource align-left}"
+				x:Name="lbYellowCount"/>
+			
+		</Grid>
+
+		<Button 
+			Margin="20"
+			Content="{x:Static properties:Resources.ButtonClose}"
+			IsCancel="True"
+			Click="Button_Click"
+			Style="{StaticResource settings-buttons}" />
+
+	</StackPanel>
+</Window>
