@@ -32,6 +32,72 @@ namespace OOPNET_WPFApp
 			this._InitForm();
 		}
 
+		private void cbFavoriteRep_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			IDictionary<string, string> conf = ConfigurationParser.ParseConfigFile(ConfigFilePaths.LOCAL_REPO_LOCAL_CONF_PATH);
+
+			this._SelectedFifaCode = (this.cbFavoriteRep.SelectedItem as Team).FifaCode;
+			conf[ConfigKeys.CONFK_FAVORITE_REP] = this._SelectedFifaCode;
+
+			ConfigurationParser.UpdateConfigFile(ConfigFilePaths.LOCAL_REPO_LOCAL_CONF_PATH, conf);
+
+			this._LoadCbOponents(new MyLoading());
+			this._UpdateGameShowcase();
+		}
+		private void cbOpositionsRep_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			this._SelectedOpositionFifaCode = (this.cbOpositionsRep.SelectedItem as MatchTeam)?.Code;
+
+			this._UpdateGameShowcase();
+		}
+
+		private void PlayerUserControl_OnPlayerClicked(object sender, FavoritePlayer e)
+		{
+			MyPlayer playerDialog = new MyPlayer(e, this._Game);
+			playerDialog.ShowDialog();
+		}
+
+		private void btnFavTeam_Click(object sender, RoutedEventArgs e)
+		{
+			new TeamInformation(this._TeamsList.First(t => t.FifaCode == this._SelectedFifaCode)).ShowDialog();
+		}
+		private void btnOppTeam_Click(object sender, RoutedEventArgs e)
+		{
+			new TeamInformation(this._TeamsList.First(t => t.FifaCode == this._SelectedOpositionFifaCode)).ShowDialog();
+		}
+
+		private void btnSettings_Click(object sender, RoutedEventArgs e)
+		{
+			Settings settingsDialog = new Settings();
+
+			bool? isOk = settingsDialog.ShowDialog();
+
+			if (isOk.HasValue && isOk.Value)
+			{
+				IDictionary<string, string> conf = ConfigurationParser.ParseConfigFile(this.GLOBAL_CONFIG);
+
+				conf[GlobalConfig.CONFK_CULTURE] = settingsDialog.Culture;
+				conf[GlobalConfig.CONFK_CUP_TYPE] = (settingsDialog.IsMaleCup) ? (CupType.MaleCup.ToString()) : (CupType.FemaleCup.ToString());
+				conf[GlobalConfig.CONFK_RESOLUTION] = settingsDialog.Resolution;
+
+				ConfigurationParser.UpdateConfigFile(this.GLOBAL_CONFIG, conf);
+
+				MessageBox.Show(Properties.InfoMessages.SettingsCloseMessage, Properties.InfoMessages.SettingsCloseTitle, MessageBoxButton.OK, MessageBoxImage.Information);
+
+				this.Close();
+			}
+
+		}
+
+		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			if (MessageBox.Show(Properties.InfoMessages.AppCloseMessage, Properties.InfoMessages.AppCloseTitle, MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.Cancel)
+			{
+				e.Cancel = true;
+			}
+
+		}
+
 		ITeamsRepo _TeamsRepo;
 		IMatchesRepo _MatchesRepo;
 
@@ -40,6 +106,11 @@ namespace OOPNET_WPFApp
 
 		string _SelectedFifaCode;
 		string _SelectedOpositionFifaCode;
+
+		WindowStyle? _OriginalStyle = null;
+		WindowState? _OriginalState = null;
+
+		private Match _Game;
 
 		private void _InitForm()
 		{
@@ -61,37 +132,6 @@ namespace OOPNET_WPFApp
 				this.cbFavoriteRep.SelectedItem = this._TeamsList.FirstOrDefault(t => t.FifaCode == conf[ConfigKeys.CONFK_FAVORITE_REP]);
 			}
 		}
-
-		private void _LoadTeamsAndMatchesList(MyLoading dialog)
-		{
-			dialog.Show();
-			this._TeamsList = this._TeamsRepo.GetAllTeamResults();
-			dialog.Close();
-		}
-
-		private void _LoadCbOponents(MyLoading dialog)
-		{
-			this.cbOpositionsRep.IsEnabled = true;
-			this.cbOpositionsRep.Items.Clear();
-			this._OppositionSet.Clear();
-			this._SelectedOpositionFifaCode = "";
-
-			dialog.Show();
-			foreach (Match match in this._MatchesRepo.GetMatchesOfCountry(this._SelectedFifaCode))
-			{
-				this._OppositionSet.Add(match.HomeTeam);
-				this._OppositionSet.Add(match.AwayTeam);
-			}
-
-			this._OppositionSet.Remove(this._OppositionSet.First(el => el.Code == this._SelectedFifaCode));
-
-			foreach (MatchTeam mTeam in this._OppositionSet)
-			{
-				this.cbOpositionsRep.Items.Add(mTeam);
-			}
-			dialog.Close();
-		}
-
 		private void _InitSettings()
 		{
 			if (!File.Exists(this.GLOBAL_CONFIG))
@@ -116,9 +156,62 @@ namespace OOPNET_WPFApp
 			}
 		}
 
-		WindowStyle? _OriginalStyle = null;
-		WindowState? _OriginalState = null;
+		private void _LoadTeamsAndMatchesList(MyLoading dialog)
+		{
+			dialog.Show();
+			this._TeamsList = this._TeamsRepo.GetAllTeamResults();
+			dialog.Close();
+		}
+		private void _LoadCbOponents(MyLoading dialog)
+		{
+			this.cbOpositionsRep.IsEnabled = true;
+			this.cbOpositionsRep.Items.Clear();
+			this._OppositionSet.Clear();
+			this._SelectedOpositionFifaCode = "";
 
+			dialog.Show();
+			foreach (Match match in this._MatchesRepo.GetMatchesOfCountry(this._SelectedFifaCode))
+			{
+				this._OppositionSet.Add(match.HomeTeam);
+				this._OppositionSet.Add(match.AwayTeam);
+			}
+
+			this._OppositionSet.Remove(this._OppositionSet.First(el => el.Code == this._SelectedFifaCode));
+
+			foreach (MatchTeam mTeam in this._OppositionSet)
+			{
+				this.cbOpositionsRep.Items.Add(mTeam);
+			}
+			dialog.Close();
+		}
+		private IEnumerable<FavoritePlayer> _LoadFavoritePlayers()
+		{
+			string[] fileLines = File.ReadAllLines(ConfigFilePaths.LOCAL_REPO_DIR + "/FavoritePlayers.txt");
+
+			foreach (string line in fileLines)
+			{
+				yield return FavoritePlayer.ParseFileLine(line, FavoritePlayer.FAVORITE_PLAYERS_DELIM);
+			}
+		}
+
+		private void _CreateNewSettings()
+		{
+			GlobalConfig.CreateEmptyConfigFile();
+
+			Settings settingsDialog = new Settings();
+			bool? isOk = settingsDialog.ShowDialog();
+
+			if (isOk.HasValue && isOk.Value == true)
+			{
+				IDictionary<string, string> conf = ConfigurationParser.ParseConfigFile(this.GLOBAL_CONFIG);
+
+				conf[GlobalConfig.CONFK_CULTURE] = settingsDialog.Culture;
+				conf[GlobalConfig.CONFK_CUP_TYPE] = (settingsDialog.IsMaleCup) ? (CupType.MaleCup.ToString()) : (CupType.FemaleCup.ToString());
+				conf[GlobalConfig.CONFK_RESOLUTION] = settingsDialog.Resolution;
+
+				ConfigurationParser.UpdateConfigFile(this.GLOBAL_CONFIG, conf);
+			}
+		}
 		private void _ParseResolution(string resolution)
 		{
 			string[] res = resolution.Split('x');
@@ -144,41 +237,7 @@ namespace OOPNET_WPFApp
 			this.Height = int.Parse(res[1]);
 		}
 
-		private void _CreateNewSettings()
-		{
-			GlobalConfig.CreateEmptyConfigFile();
-
-			Settings settingsDialog = new Settings();
-			bool? isOk = settingsDialog.ShowDialog();
-
-			if (isOk.HasValue && isOk.Value == true)
-			{
-				IDictionary<string, string> conf = ConfigurationParser.ParseConfigFile(this.GLOBAL_CONFIG);
-
-				conf[GlobalConfig.CONFK_CULTURE] = settingsDialog.Culture;
-				conf[GlobalConfig.CONFK_CUP_TYPE] = (settingsDialog.IsMaleCup) ? (CupType.MaleCup.ToString()) : (CupType.FemaleCup.ToString());
-				conf[GlobalConfig.CONFK_RESOLUTION] = settingsDialog.Resolution;
-
-				ConfigurationParser.UpdateConfigFile(this.GLOBAL_CONFIG, conf);
-			}
-		}
-
-		private void cbFavoriteRep_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			IDictionary<string, string> conf = ConfigurationParser.ParseConfigFile(ConfigFilePaths.LOCAL_REPO_LOCAL_CONF_PATH);
-
-			this._SelectedFifaCode = (this.cbFavoriteRep.SelectedItem as Team).FifaCode;
-			conf[ConfigKeys.CONFK_FAVORITE_REP] = this._SelectedFifaCode;
-
-			ConfigurationParser.UpdateConfigFile(ConfigFilePaths.LOCAL_REPO_LOCAL_CONF_PATH, conf);
-
-			this._LoadCbOponents(new MyLoading());
-			this._UpdateGameInfo();
-		}
-
-		private Match _Game;
-
-		private void _UpdateGameInfo()
+		private void _UpdateGameShowcase()
 		{
 			if (!string.IsNullOrEmpty(this._SelectedFifaCode) && !string.IsNullOrEmpty(this._SelectedOpositionFifaCode))
 			{
@@ -256,22 +315,6 @@ namespace OOPNET_WPFApp
 			}
 		}
 
-		private void PlayerUserControl_OnPlayerClicked(object sender, FavoritePlayer e)
-		{
-			MyPlayer playerDialog = new MyPlayer(e, this._Game);
-			playerDialog.ShowDialog();
-		}
-
-		private IEnumerable<FavoritePlayer> _LoadFavoritePlayers()
-		{
-			string[] fileLines = File.ReadAllLines(ConfigFilePaths.LOCAL_REPO_DIR + "/FavoritePlayers.txt");
-
-			foreach (string line in fileLines)
-			{
-				yield return FavoritePlayer.ParseFileLine(line, FavoritePlayer.FAVORITE_PLAYERS_DELIM);
-			}
-		}
-
 		private void _HandleButton(Button buttonToHandle, string data)
 		{
 			if (!string.IsNullOrEmpty(data))
@@ -285,53 +328,5 @@ namespace OOPNET_WPFApp
 			}
 		}
 
-		private void cbOpositionsRep_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			this._SelectedOpositionFifaCode = (this.cbOpositionsRep.SelectedItem as MatchTeam)?.Code;
-
-			this._UpdateGameInfo();
-		}
-
-		private void btnFavTeam_Click(object sender, RoutedEventArgs e)
-		{
-			new TeamInformation(this._TeamsList.First(t => t.FifaCode == this._SelectedFifaCode)).ShowDialog();
-		}
-
-		private void btnOppTeam_Click(object sender, RoutedEventArgs e)
-		{
-			new TeamInformation(this._TeamsList.First(t => t.FifaCode == this._SelectedOpositionFifaCode)).ShowDialog();
-		}
-
-		private void btnSettings_Click(object sender, RoutedEventArgs e)
-		{
-			Settings settingsDialog = new Settings();
-
-			bool? isOk = settingsDialog.ShowDialog();
-
-			if (isOk.HasValue && isOk.Value)
-			{
-				IDictionary<string, string> conf = ConfigurationParser.ParseConfigFile(this.GLOBAL_CONFIG);
-
-				conf[GlobalConfig.CONFK_CULTURE] = settingsDialog.Culture;
-				conf[GlobalConfig.CONFK_CUP_TYPE] = (settingsDialog.IsMaleCup) ? (CupType.MaleCup.ToString()) : (CupType.FemaleCup.ToString());
-				conf[GlobalConfig.CONFK_RESOLUTION] = settingsDialog.Resolution;
-
-				ConfigurationParser.UpdateConfigFile(this.GLOBAL_CONFIG, conf);
-
-				MessageBox.Show(Properties.InfoMessages.SettingsCloseMessage, Properties.InfoMessages.SettingsCloseTitle, MessageBoxButton.OK, MessageBoxImage.Information);
-
-				this.Close();
-			}
-
-		}
-
-		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-		{
-			if (MessageBox.Show(Properties.InfoMessages.AppCloseMessage, Properties.InfoMessages.AppCloseTitle, MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.Cancel)
-			{
-				e.Cancel = true;
-			}
-
-		}
 	}
 }

@@ -43,5 +43,6 @@ namespace OOPNET_WPFApp.Dialogs
 		{
 			this.DialogResult = true;
 		}
+
 	}
 }

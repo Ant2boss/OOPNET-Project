@@ -30,6 +30,13 @@ namespace OOPNET_WPFApp.UserControls
 			this._InitUC(player);
 		}
 
+		public event EventHandler<FavoritePlayer> OnPlayerClicked;
+
+		private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			this.OnPlayerClicked?.Invoke(this, this._Player);
+		}
+
 		private void _InitUC(FavoritePlayer player)
 		{
 			this._Player = player;
@@ -46,11 +53,5 @@ namespace OOPNET_WPFApp.UserControls
 
 		private FavoritePlayer _Player;
 
-		public event EventHandler<FavoritePlayer> OnPlayerClicked;
-
-		private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-		{
-			this.OnPlayerClicked?.Invoke(this, this._Player);
-		}
 	}
 }

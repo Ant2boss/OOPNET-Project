@@ -76,6 +76,7 @@
 			HorizontalAlignment="Center"
 			FontSize="12"
 			Text="--------"
+			TextWrapping="Wrap"
 			x:Name="tbPlayerName"/>
 
 

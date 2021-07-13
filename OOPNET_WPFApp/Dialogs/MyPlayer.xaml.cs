@@ -32,6 +32,11 @@ namespace OOPNET_WPFApp.Dialogs
 			this._InitWindow();
 		}
 
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			this.Close();
+		}
+
 		private void _InitWindow()
 		{
 			this.lbName.Content = this._Player.Player.Name;
@@ -65,7 +70,6 @@ namespace OOPNET_WPFApp.Dialogs
 				.Where(m => m.Player == this._Player.Player.Name && m.TypeOfEvent == "yellow-card")
 				.Count();
 		}
-
 		private int _CountUpGoals()
 		{
 			IList<MatchTeamEvent> allMatchEvents = this._Game.HomeTeamEvents.Union(this._Game.AwayTeamEvents).ToList();
@@ -78,9 +82,6 @@ namespace OOPNET_WPFApp.Dialogs
 		FavoritePlayer _Player;
 		Match _Game;
 
-		private void Button_Click(object sender, RoutedEventArgs e)
-		{
-			this.Close();
-		}
+
 	}
 }
